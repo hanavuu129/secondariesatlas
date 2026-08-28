@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accounting & Valuation · Secondaries Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/atlas.css">
+</head>
+<body>
+<header class="topbar"><a class="home" href="../index.html">◂ SECONDARIES ATLAS</a><span class="crumb">MODULE 04 · ACCOUNTING & VALUATION</span></header>
+<main>
+<section>
+  <div class="sec-head"><span class="rn">MODULE 04</span><h2>Accounting &amp; Valuation Core</h2></div>
+
+  <h3>The three statements, linked</h3>
+  <ul>
+    <li><strong>Net income</strong> flows from the income statement to the top of the cash flow statement and into retained earnings on the balance sheet.</li>
+    <li><strong>CFS</strong> adjusts NI for non-cash items (D&amp;A, stock comp), working capital changes, capex, and financing; ending cash goes to the balance sheet.</li>
+    <li><strong>Balance sheet</strong> must balance: assets = liabilities + equity, tied by cash and retained earnings.</li>
+  </ul>
+
+  <details>
+    <summary>The classic: walk me through $10 of depreciation (40% tax rate)</summary>
+    <div class="a">
+      <p><strong>IS:</strong> pre-tax income −$10, taxes −$4, net income −$6.<br>
+      <strong>CFS:</strong> start NI −$6, add back +$10 D&amp;A (non-cash) → cash +$4.<br>
+      <strong>BS:</strong> assets: cash +$4, PP&amp;E −$10 → −$6 total. Equity: retained earnings −$6. Balanced. The punchline: depreciation is non-cash but <em>saves real cash through the tax shield</em>.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Deferred revenue vs. accounts receivable</summary>
+    <div class="a"><p>Deferred revenue: cash received <em>before</em> earning it — a liability (you owe the service). AR: revenue earned <em>before</em> cash arrives — an asset. Deferred revenue growth is a great sign in software (customers prepay); AR growth outpacing revenue is a red flag (channel stuffing, collection issues).</p></div>
+  </details>
+
+  <h3>Valuation methodologies</h3>
+  <table>
+    <tr><th>Method</th><th>How</th><th>Watch-outs</th></tr>
+    <tr><td><strong>Comparable companies</strong></td><td>Trading multiples of similar public firms (EV/EBITDA, EV/Revenue, P/E)</td><td>Market-dependent; screen for true comparability (growth, margins, scale)</td></tr>
+    <tr><td><strong>Precedent transactions</strong></td><td>Multiples paid in past M&amp;A</td><td>Includes control premium; deal context varies</td></tr>
+    <tr><td><strong>DCF</strong></td><td>PV of projected FCF + terminal value, discounted at WACC</td><td>Garbage in, garbage out; TV often 70%+ of value</td></tr>
+    <tr><td><strong>LBO analysis</strong></td><td>"What can a sponsor pay and still hit ~20% IRR?"</td><td>Sets a valuation floor in sponsor-heavy processes</td></tr>
+  </table>
+
+  <div class="formula">Enterprise Value = Equity Value + Net Debt + Preferred + Minority Interest
+FCFF   = EBIT(1−t) + D&amp;A − Capex − ΔNWC
+WACC   = (E/V)·Re + (D/V)·Rd·(1−t)
+Re     = Rf + β × Equity Risk Premium        (CAPM)
+TV     = FCF·(1+g) / (WACC − g)              (Gordon growth)</div>
+
+  <details>
+    <summary>Why can EV/EBITDA be compared across capital structures but P/E can't?</summary>
+    <div class="a"><p>EV includes all claims (debt + equity) and EBITDA is pre-interest, so both numerator and denominator are capital-structure-neutral. P/E mixes an equity-only numerator with an after-interest denominator, so leverage distorts it.</p></div>
+  </details>
+  <details>
+    <summary>Two companies, identical financials — one trades at 12x, one at 8x. Why?</summary>
+    <div class="a"><p>Forward expectations: growth durability, margin trajectory, reinvestment needs, competitive moat, management quality, end-market cyclicality, liquidity/float, or the 8x business has hidden risks (customer concentration, litigation, regulation). Multiples are compressed DCFs — a multiple gap is a growth/risk gap.</p></div>
+  </details>
+</section>
+<nav class="pager"><a href="lbo.html">← 03 · LBO Mechanics</a><button id="markDone" class="done-btn" type="button"></button><a href="playbook.html">05 · PE Strategy Playbook →</a></nav>
+</main>
+<script src="../js/atlas.js"></script>
+<script>Atlas.initPage("valuation");</script>
+</body>
+</html>

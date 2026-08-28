@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LBO Mechanics · Secondaries Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/atlas.css">
+</head>
+<body>
+<header class="topbar"><a class="home" href="../index.html">◂ SECONDARIES ATLAS</a><span class="crumb">MODULE 03 · LBO MECHANICS</span></header>
+<main>
+<section>
+  <div class="sec-head"><span class="rn">MODULE 03</span><h2>LBO Mechanics</h2></div>
+  <p class="lede">The LBO is PE's core machine: buy a company using mostly debt, use the company's own cash flows to repay it, and sell later. Equity returns come from three levers.</p>
+
+  <div class="formula">Value creation = EBITDA growth  ×  Multiple expansion  ×  Deleveraging
+Exit Equity = (Exit EBITDA × Exit Multiple) − Net Debt at Exit
+MOIC = Exit Equity / Entry Equity</div>
+
+  <h3>What makes a good LBO candidate</h3>
+  <ul>
+    <li><strong>Stable, predictable cash flows</strong> (recurring revenue, low cyclicality) — debt service is non-negotiable.</li>
+    <li><strong>Low capex intensity</strong> — more FCF available for paydown.</li>
+    <li><strong>Defensible market position</strong> and pricing power.</li>
+    <li><strong>Operational upside</strong> — margin expansion, pricing, procurement, add-on M&amp;A.</li>
+    <li><strong>Clean balance sheet and a motivated seller</strong> at a sensible entry multiple.</li>
+  </ul>
+
+  <h3>The capital structure stack</h3>
+  <table>
+    <tr><th>Tranche</th><th>Typical pricing</th><th>Traits</th></tr>
+    <tr><td>Revolver</td><td class="num">SOFR + 200–350</td><td>Undrawn liquidity backstop; first-out</td></tr>
+    <tr><td>Term Loan A / B (senior secured)</td><td class="num">SOFR + 275–450</td><td>TLB: institutional, ~1% amortization, cov-lite common</td></tr>
+    <tr><td>Senior notes / high yield</td><td class="num">7–10% fixed</td><td>Bullet maturity, call protection</td></tr>
+    <tr><td>Mezzanine / PIK</td><td class="num">11–15%, often PIK</td><td>Interest accrues to principal — no cash drag, compounds against equity</td></tr>
+    <tr><td>Preferred equity</td><td class="num">12–16%</td><td>Structured; sits between debt and common</td></tr>
+    <tr><td>Common equity</td><td class="num">20%+ target IRR</td><td>The sponsor's check, typically 40–60% of the cap structure post-GFC</td></tr>
+  </table>
+  <p class="tbl-note">Pricing ranges are indicative and rate-environment dependent.</p>
+
+  <h3>Paper LBO — the 5-minute drill</h3>
+  <p>You will be asked to do this without a calculator. Practice until the rhythm is automatic:</p>
+  <table>
+    <tr><th>Step</th><th>Example</th></tr>
+    <tr><td>1. Entry</td><td>$100M EBITDA × 10.0x = <strong>$1,000M EV</strong>. Fund with 5.0x debt ($500M) + $500M equity.</td></tr>
+    <tr><td>2. Grow EBITDA</td><td>10% per year, 5 years: 100 → 110 → 121 → 133 → 146 → <strong>~161</strong>.</td></tr>
+    <tr><td>3. Debt paydown</td><td>FCF after interest, taxes, capex ≈ $50M/yr → repay $250M → exit net debt <strong>$250M</strong>.</td></tr>
+    <tr><td>4. Exit</td><td>161 × 10.0x = $1,610M EV − $250M debt = <strong>$1,360M equity</strong>.</td></tr>
+    <tr><td>5. Returns</td><td>1,360 / 500 = <strong>2.7x MOIC</strong> ≈ <strong>~22% IRR</strong> over 5 years.</td></tr>
+  </table>
+
+  <h4>IRR ↔ MOIC mental map (memorize)</h4>
+  <table>
+    <tr><th>MOIC</th><th class="num">3 years</th><th class="num">5 years</th><th class="num">7 years</th></tr>
+    <tr><td>2.0x</td><td class="num">~26%</td><td class="num">~15%</td><td class="num">~10%</td></tr>
+    <tr><td>2.5x</td><td class="num">~36%</td><td class="num">~20%</td><td class="num">~14%</td></tr>
+    <tr><td>3.0x</td><td class="num">~44%</td><td class="num">~25%</td><td class="num">~17%</td></tr>
+  </table>
+  <p>Shortcuts: <em>Rule of 72</em> — money doubles when IRR × years ≈ 72. A 2x in 5 years is therefore ~15% (72/5). A 3x in 5 years ≈ doubling in ~3.15 years ≈ mid-20s.</p>
+
+  <h3>Full model architecture</h3>
+  <ol>
+    <li><strong>Transaction assumptions:</strong> entry multiple, fees (financing ~2% of debt, M&amp;A ~1–2% of EV), management rollover.</li>
+    <li><strong>Sources &amp; uses:</strong> uses = equity purchase price + refinanced debt + fees; sources = new debt tranches + sponsor equity + rollover.</li>
+    <li><strong>Operating model:</strong> revenue drivers → EBITDA → D&amp;A → EBIT → cash taxes.</li>
+    <li><strong>Debt schedule:</strong> beginning balance → mandatory amortization → <strong>cash sweep</strong> of excess FCF (usually to the cheapest prepayable tranche) → ending balance → interest on average balance. This creates the model's classic <strong>circularity</strong> (interest → FCF → paydown → interest); handle with iteration or by toggling interest on beginning balance.</li>
+    <li><strong>Returns:</strong> exit EV bridge, waterfall to equity, IRR/MOIC sensitivity grid (entry vs. exit multiple, leverage, growth).</li>
+  </ol>
+
+  <div class="callout">
+    <span class="tag">PIK technical, done right</span>
+    <p><strong>"How does PIK interest affect returns?"</strong> PIK accrues to principal instead of paying cash. Cash FCF improves (more sweep to senior debt), but the PIK balance compounds — at exit, a $100M PIK note at 12% for 5 years has grown to ~$176M, all of which comes out of the equity holder's exit proceeds. PIK trades near-term liquidity for a compounding claim senior to you. It flatters interim credit metrics while quietly eroding equity MOIC.</p>
+  </div>
+</section>
+<div class="tool" id="tool-lbo">
+  <span class="tag">Interactive Tool</span>
+  <h3>LBO Simulator</h3>
+  <p>A $100M-EBITDA business. Set the deal, then stress it: crank leverage and watch IRR climb; cut the exit multiple and watch the equity crack. The bridge shows where the value creation comes from.</p>
+  <div class="trow"><label for="lb_em">Entry multiple (x EBITDA)</label><input type="range" id="lb_em" min="6" max="14" step="0.5" value="10"><output id="lb_em_v"></output></div>
+  <div class="trow"><label for="lb_lv">Leverage (x EBITDA)</label><input type="range" id="lb_lv" min="2" max="7" step="0.5" value="5"><output id="lb_lv_v"></output></div>
+  <div class="trow"><label for="lb_g">EBITDA growth (%/yr)</label><input type="range" id="lb_g" min="-5" max="15" step="1" value="8"><output id="lb_g_v"></output></div>
+  <div class="trow"><label for="lb_f">FCF to debt paydown (% of EBITDA)</label><input type="range" id="lb_f" min="10" max="60" step="5" value="35"><output id="lb_f_v"></output></div>
+  <div class="trow"><label for="lb_xm">Exit multiple (x EBITDA)</label><input type="range" id="lb_xm" min="6" max="14" step="0.5" value="10"><output id="lb_xm_v"></output></div>
+  <div class="trow"><label for="lb_t">Hold period (years)</label><input type="range" id="lb_t" min="3" max="7" step="1" value="5"><output id="lb_t_v"></output></div>
+  <div class="tstats">
+    <div class="tstat"><span class="k">Entry equity</span><span class="v" id="lb_eq0"></span></div>
+    <div class="tstat"><span class="k">Exit equity</span><span class="v" id="lb_eqT"></span></div>
+    <div class="tstat"><span class="k">MOIC</span><span class="v" id="lb_moic"></span></div>
+    <div class="tstat"><span class="k">IRR</span><span class="v" id="lb_irr"></span></div>
+  </div>
+  <h4>Value-creation bridge</h4>
+  <div class="tbar-row"><span>EBITDA growth</span><div class="tbar"><i id="lb_b1"></i></div><span class="val" id="lb_v1"></span></div>
+  <div class="tbar-row"><span>Multiple expansion</span><div class="tbar"><i id="lb_b2"></i></div><span class="val" id="lb_v2"></span></div>
+  <div class="tbar-row"><span>Debt paydown</span><div class="tbar"><i id="lb_b3"></i></div><span class="val" id="lb_v3"></span></div>
+  <p class="twarn" id="lb_warn">Leverage exceeds the purchase multiple — there is no equity check. Dial it back.</p>
+  <p class="tnote">Simplified: paydown is a flat % of each year's EBITDA (a proxy for FCF after interest, taxes, and capex); excess cash beyond full paydown accrues to equity.</p>
+  <script>
+  (function(){
+    var $ = function(id){ return document.getElementById(id); };
+    function calc(){
+      var em = +$('lb_em').value, lv = +$('lb_lv').value, g = +$('lb_g').value/100,
+          f = +$('lb_f').value/100, xm = +$('lb_xm').value, T = +$('lb_t').value, E = 100;
+      $('lb_em_v').value = em.toFixed(1) + 'x'; $('lb_lv_v').value = lv.toFixed(1) + 'x';
+      $('lb_g_v').value = (g*100).toFixed(0) + '%'; $('lb_f_v').value = (f*100).toFixed(0) + '%';
+      $('lb_xm_v').value = xm.toFixed(1) + 'x'; $('lb_t_v').value = T + ' yrs';
+      var eq0 = E*em - E*lv;
+      var bad = eq0 <= 0;
+      $('lb_warn').style.display = bad ? 'block' : 'none';
+      if(bad){ ['lb_eq0','lb_eqT','lb_moic','lb_irr','lb_v1','lb_v2','lb_v3'].forEach(function(i){ $(i).textContent='—'; }); return; }
+      var d0 = E*lv, cum = 0, eb = E;
+      for(var t=1; t<=T; t++){ eb = E*Math.pow(1+g, t); cum += eb*f; }
+      var dT = Math.max(0, d0 - cum), cash = Math.max(0, cum - d0);
+      var eqT = eb*xm - dT + cash;
+      var moic = eqT/eq0, irr = Math.pow(Math.max(moic, 0.0001), 1/T) - 1;
+      $('lb_eq0').textContent = '$' + eq0.toFixed(0) + 'M';
+      $('lb_eqT').textContent = '$' + Math.max(eqT,0).toFixed(0) + 'M';
+      $('lb_moic').textContent = moic.toFixed(2) + 'x';
+      $('lb_irr').textContent = (irr*100).toFixed(1) + '%';
+      var a1 = (eb - E)*em, a2 = (xm - em)*eb, a3 = Math.min(cum, d0) + cash;
+      var mx = Math.max(Math.abs(a1), Math.abs(a2), Math.abs(a3), 1);
+      [[a1,'lb_b1','lb_v1'],[a2,'lb_b2','lb_v2'],[a3,'lb_b3','lb_v3']].forEach(function(x){
+        $(x[1]).style.width = (100*Math.abs(x[0])/mx) + '%';
+        $(x[1]).style.background = x[0] < 0 ? 'var(--neg)' : '';
+        $(x[2]).textContent = (x[0] < 0 ? '−' : '+') + '$' + Math.abs(x[0]).toFixed(0) + 'M';
+      });
+    }
+    ['lb_em','lb_lv','lb_g','lb_f','lb_xm','lb_t'].forEach(function(id){ $(id).addEventListener('input', calc); });
+    calc();
+  })();
+  </script>
+</div>
+
+<nav class="pager"><a href="fund-mechanics.html">← 02 · PE Fund Mechanics</a><button id="markDone" class="done-btn" type="button"></button><a href="valuation.html">04 · Accounting & Valuation →</a></nav>
+</main>
+<script src="../js/atlas.js"></script>
+<script>Atlas.initPage("lbo");</script>
+</body>
+</html>

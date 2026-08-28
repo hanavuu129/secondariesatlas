@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PE Fund Mechanics · Secondaries Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/atlas.css">
+</head>
+<body>
+<header class="topbar"><a class="home" href="../index.html">◂ SECONDARIES ATLAS</a><span class="crumb">MODULE 02 · PE FUND MECHANICS</span></header>
+<main>
+<section>
+  <div class="sec-head"><span class="rn">MODULE 02</span><h2>Private Equity Fund Mechanics</h2></div>
+
+  <h3>The fund structure</h3>
+  <ul>
+    <li><strong>GP (general partner):</strong> the firm. Manages the fund, makes decisions, bears unlimited liability (in theory), commits typically 1–5% of the fund ("GP commit") for alignment.</li>
+    <li><strong>LPs (limited partners):</strong> passive investors who commit capital, drawn down over time via <strong>capital calls</strong> during a ~5-year <strong>investment period</strong>.</li>
+    <li><strong>Fund life:</strong> ~10 years plus extensions. Deploy years 1–5, harvest years 4–10.</li>
+    <li><strong>LPA:</strong> the limited partnership agreement — governs fees, waterfall, key-person provisions, GP removal, and the LPAC (LP advisory committee, which rules on conflicts).</li>
+  </ul>
+
+  <h3>Fund economics: 2-and-20</h3>
+  <ul>
+    <li><strong>Management fee:</strong> ~1.5–2.0% of committed capital during the investment period, usually stepping down to invested capital afterward. Pays salaries and rent.</li>
+    <li><strong>Carried interest ("carry"):</strong> ~20% of profits above a <strong>hurdle / preferred return</strong> (typically 8%), the real prize.</li>
+    <li><strong>European (whole-fund) waterfall:</strong> carry paid only after LPs receive all capital plus pref across the whole fund. LP-friendly.</li>
+    <li><strong>American (deal-by-deal) waterfall:</strong> carry paid per realized deal, with clawback provisions. GP-friendly.</li>
+  </ul>
+
+  <h4>Worked waterfall example (8% pref, 100% catch-up, 20% carry)</h4>
+  <table>
+    <tr><th>Step</th><th>Mechanics</th><th class="num">LP</th><th class="num">GP</th></tr>
+    <tr><td>Fund returns $250M on $100M invested</td><td>Total profit = $150M</td><td class="num">—</td><td class="num">—</td></tr>
+    <tr><td>1. Return of capital</td><td>LPs get their $100M back first</td><td class="num">$100M</td><td class="num">$0</td></tr>
+    <tr><td>2. Preferred return</td><td>Assume accrued pref = $40M</td><td class="num">$40M</td><td class="num">$0</td></tr>
+    <tr><td>3. GP catch-up</td><td>100% to GP until GP holds 20% of profit distributed so far: solve x = 0.20 × (40 + x) → x = $10M</td><td class="num">$0</td><td class="num">$10M</td></tr>
+    <tr><td>4. Split remaining $100M</td><td>80 / 20</td><td class="num">$80M</td><td class="num">$20M</td></tr>
+    <tr><td><strong>Total</strong></td><td>GP carry = $30M = exactly 20% of $150M profit ✓</td><td class="num"><strong>$220M</strong></td><td class="num"><strong>$30M</strong></td></tr>
+  </table>
+
+  <h3>Performance metrics</h3>
+  <div class="formula">MOIC  = Total Value / Invested Capital        (gross multiple, ignores time)
+TVPI  = (Distributions + NAV) / Paid-in        (total value to paid-in)
+DPI   = Distributions / Paid-in                (realized — what LPs care about now)
+RVPI  = NAV / Paid-in                          (unrealized)
+IRR   = discount rate where NPV of cash flows = 0   (time-weighted)</div>
+  <ul>
+    <li><strong>IRR vs. MOIC tension:</strong> IRR rewards speed, MOIC rewards magnitude. A 1.5x in 12 months is a ~50% IRR but a mediocre multiple. LPs increasingly focus on <strong>DPI</strong> — "you can't eat IRR."</li>
+    <li><strong>J-curve:</strong> early fund-life returns look negative (fees drawn, assets held at cost) before appreciating. Secondaries buyers love mid-life funds because the J-curve is already behind them.</li>
+    <li><strong>IRR games to know:</strong> subscription credit lines delay capital calls and inflate IRR; NAV loans pull distributions forward; recycling provisions redeploy early proceeds.</li>
+  </ul>
+
+  <div class="callout">
+    <span class="tag">Interview favorite</span>
+    <p><strong>"A fund shows a 25% net IRR but 1.3x DPI in year 8 — is it a good fund?"</strong> Be skeptical: high IRR with low realized distributions late in fund life suggests early wins were small, marks may be stale, and the IRR is riding on unrealized NAV. Ask about the subscription line, the pace of exits, and where the residual value sits.</p>
+  </div>
+</section>
+<div class="tool" id="tool-waterfall">
+  <span class="tag">Interactive Tool</span>
+  <h3>Distribution Waterfall Visualizer</h3>
+  <p>A $100M fund returns gross proceeds through a European waterfall (8%-style compounding pref, 100% catch-up). Drag the sliders and watch the LP/GP split and the GP's effective take move.</p>
+  <div class="trow"><label for="wf_p">Gross proceeds ($M)</label><input type="range" id="wf_p" min="80" max="400" step="5" value="250"><output id="wf_p_v"></output></div>
+  <div class="trow"><label for="wf_r">Preferred return (%/yr)</label><input type="range" id="wf_r" min="0" max="12" step="0.5" value="8"><output id="wf_r_v"></output></div>
+  <div class="trow"><label for="wf_t">Years to distribution</label><input type="range" id="wf_t" min="1" max="10" step="1" value="5"><output id="wf_t_v"></output></div>
+  <div class="trow"><label for="wf_c">Carried interest (%)</label><input type="range" id="wf_c" min="10" max="30" step="1" value="20"><output id="wf_c_v"></output></div>
+  <div class="tbar-row"><span>LP total</span><div class="tbar"><i id="wf_lpbar"></i></div><span class="val" id="wf_lp"></span></div>
+  <div class="tbar-row"><span>GP carry</span><div class="tbar"><i class="alt" id="wf_gpbar"></i></div><span class="val" id="wf_gp"></span></div>
+  <div class="tstats">
+    <div class="tstat"><span class="k">Accrued pref</span><span class="v" id="wf_pref"></span></div>
+    <div class="tstat"><span class="k">GP catch-up</span><span class="v" id="wf_cu"></span></div>
+    <div class="tstat"><span class="k">GP % of profit</span><span class="v" id="wf_eff"></span></div>
+    <div class="tstat"><span class="k">LP net MOIC</span><span class="v" id="wf_moic"></span></div>
+  </div>
+  <p class="tnote">Notice: below ~$100M + pref, the GP earns nothing; just past it, catch-up dollars flow fast. Management fees are excluded for clarity.</p>
+  <script>
+  (function(){
+    var $ = function(id){ return document.getElementById(id); };
+    function calc(){
+      var P = +$('wf_p').value, r = +$('wf_r').value/100, T = +$('wf_t').value, c = +$('wf_c').value/100;
+      $('wf_p_v').value = '$' + P + 'M'; $('wf_r_v').value = (r*100).toFixed(1) + '%';
+      $('wf_t_v').value = T + ' yrs'; $('wf_c_v').value = (c*100).toFixed(0) + '%';
+      var inv = 100, profit = Math.max(P - inv, 0);
+      var pref = inv * (Math.pow(1 + r, T) - 1);
+      var prefPaid = Math.min(profit, pref);
+      var rem = profit - prefPaid;
+      var cu = c < 1 ? Math.min(rem, prefPaid * c / (1 - c)) : rem;
+      var rem2 = rem - cu;
+      var GP = cu + rem2 * c;
+      var LP = P - GP;
+      $('wf_lp').textContent = '$' + LP.toFixed(1) + 'M';
+      $('wf_gp').textContent = '$' + GP.toFixed(1) + 'M';
+      $('wf_lpbar').style.width = Math.min(100, LP / 4) + '%';
+      $('wf_gpbar').style.width = Math.min(100, GP / 4) + '%';
+      $('wf_pref').textContent = '$' + pref.toFixed(1) + 'M';
+      $('wf_cu').textContent = '$' + cu.toFixed(1) + 'M';
+      $('wf_eff').textContent = profit > 0 ? (100 * GP / profit).toFixed(1) + '%' : '—';
+      $('wf_moic').textContent = (LP / inv).toFixed(2) + 'x';
+    }
+    ['wf_p','wf_r','wf_t','wf_c'].forEach(function(id){ $(id).addEventListener('input', calc); });
+    calc();
+  })();
+  </script>
+</div>
+
+<nav class="pager"><a href="map.html">← 01 · The Buyside Map</a><button id="markDone" class="done-btn" type="button"></button><a href="lbo.html">03 · LBO Mechanics →</a></nav>
+</main>
+<script src="../js/atlas.js"></script>
+<script>Atlas.initPage("fund-mechanics");</script>
+</body>
+</html>

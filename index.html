@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secondaries Atlas · private markets, mapped</title>
+<meta name="description" content="An interactive atlas of private equity, secondaries, and buyside recruiting: fund mechanics, LBOs, GP-led transactions, hedge funds, drills, and tools.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/atlas.css">
+</head>
+<body>
+<header class="topbar"><a class="home" href="index.html">SECONDARIES ATLAS</a><span class="crumb" id="hubProg"></span></header>
+<main>
+<div class="hub-hero">
+  <span class="kicker">Private Markets · Secondaries · Recruiting</span>
+  <h2>The private-markets liquidity machine, mapped.</h2>
+  <p class="lede">Nine modules from fund mechanics to GP-led underwriting to the interview seat — each with visuals, worked math, and live tools you can push on. No account; progress and drill scores save in your browser.</p>
+</div>
+
+<div class="hub-stats">
+  <div><b>9</b><span>Modules</span></div>
+  <div><b>4</b><span>Interactive tools</span></div>
+  <div><b>50</b><span>Drill questions</span></div>
+  <div><b>35+</b><span>Glossary terms</span></div>
+</div>
+
+<h3>Choose a route</h3>
+<p>Pick a path and the modules light up in order — or ignore them and roam.</p>
+<div class="paths">
+  <button class="path-btn" data-seq='["map","fund-mechanics","valuation","lbo","playbook"]'>Fundamentals first</button>
+  <button class="path-btn" data-seq='["fund-mechanics","secondaries","coinvest","drills"]'>Secondaries sprint</button>
+  <button class="path-btn" data-seq='["lbo","recruiting","drills"]'>Interview crunch</button>
+</div>
+
+<h3>The curriculum</h3>
+<div class="mod-grid">
+<a class="mod-card" data-mod="map" href="modules/map.html"><span class="badge"></span><span class="num">MODULE 01 · 15 min</span><h3>The Buyside Map</h3><p>Asset classes, hold periods, return drivers, and where the money comes from.</p><span class="prog"></span></a>
+<a class="mod-card" data-mod="fund-mechanics" href="modules/fund-mechanics.html"><span class="badge"></span><span class="num">MODULE 02 · 25 min</span><h3>PE Fund Mechanics</h3><p>Fund structures, 2-and-20, waterfalls, IRR games, and the metrics LPs live by.</p><span class="prog"></span></a>
+<a class="mod-card" data-mod="lbo" href="modules/lbo.html"><span class="badge"></span><span class="num">MODULE 03 · 35 min</span><h3>LBO Mechanics</h3><p>The core machine: leverage, the paper LBO drill, and full model architecture.</p><span class="prog"></span></a>
+<a class="mod-card" data-mod="valuation" href="modules/valuation.html"><span class="badge"></span><span class="num">MODULE 04 · 25 min</span><h3>Accounting & Valuation</h3><p>Three-statement links, multiples, DCF logic — the technical bedrock.</p><span class="prog"></span></a>
+<a class="mod-card" data-mod="playbook" href="modules/playbook.html"><span class="badge"></span><span class="num">MODULE 05 · 20 min</span><h3>PE Strategy Playbook</h3><p>Roll-ups, carve-outs, take-privates, and how sponsors underwrite deals.</p><span class="prog"></span></a>
+<a class="mod-card" data-mod="secondaries" href="modules/secondaries.html"><span class="badge"></span><span class="num">MODULE 06 · 40 min</span><h3>Secondaries & GP-Leds</h3><p>LP-leds, continuation vehicles, pricing, conflicts — the flagship module.</p><span class="prog"></span></a>
+<a class="mod-card" data-mod="coinvest" href="modules/coinvest.html"><span class="badge"></span><span class="num">MODULE 07 · 15 min</span><h3>Co-Investments</h3><p>Fee-free exposure, syndication vs. co-underwriting, and adverse selection.</p><span class="prog"></span></a>
+<a class="mod-card" data-mod="hedge-funds" href="modules/hedge-funds.html"><span class="badge"></span><span class="num">MODULE 08 · 25 min</span><h3>Hedge Funds</h3><p>Strategy taxonomy, exposure math, and the PE-vs-HF career calculus.</p><span class="prog"></span></a>
+<a class="mod-card" data-mod="recruiting" href="modules/recruiting.html"><span class="badge"></span><span class="num">MODULE 09 · 45 min</span><h3>Recruiting & Interviews</h3><p>On-cycle, headhunters, the interview arsenal, and telling your story.</p><span class="prog"></span></a>
+<a class="mod-card" data-mod="drills" href="modules/drills.html"><span class="badge"></span><span class="num">PRACTICE DRILLS · ∞</span><h3>Practice Drills</h3><p>50 multiple-choice questions across six topics. Scores saved locally.</p><span class="prog"></span></a>
+<a class="mod-card" data-mod="glossary" href="modules/glossary.html"><span class="badge"></span><span class="num">GLOSSARY · ref</span><h3>Glossary</h3><p>35+ searchable terms, from add-ons to waterfalls.</p><span class="prog"></span></a>
+
+</div>
+
+<h3>The toolkit</h3>
+<ul>
+  <li><a href="modules/fund-mechanics.html#tool-waterfall"><strong>Distribution Waterfall Visualizer</strong></a> — pref, catch-up, and carry, live</li>
+  <li><a href="modules/lbo.html#tool-lbo"><strong>LBO Simulator</strong></a> — leverage, exit, IRR/MOIC, and the value-creation bridge</li>
+  <li><a href="modules/secondaries.html#tool-pricer"><strong>LP-Interest Pricer</strong></a> — discount to NAV vs. growth as return drivers</li>
+  <li><a href="modules/secondaries.html#tool-g2n"><strong>Gross-to-Net Bridge</strong></a> — CV fee and carry terms, quantified</li>
+  <li><a href="modules/drills.html"><strong>Practice Drills</strong></a> — 50 questions, six topics, scores saved <span id="drillBest" style="font-family:var(--mono);font-size:12px;color:var(--brass)"></span></li>
+</ul>
+
+<div class="callout" style="margin-top:40px">
+  <span class="tag">A note on figures</span>
+  <p>Market data (volumes, pricing, timelines) is directional and moves constantly — re-verify anything time-sensitive before an interview. Content is original and educational.</p>
+</div>
+</main>
+<script src="js/atlas.js"></script>
+<script>
+Atlas.initHub(["map", "fund-mechanics", "lbo", "valuation", "playbook", "secondaries", "coinvest", "hedge-funds", "recruiting", "drills", "glossary"]);
+(function(){
+  var btns = Array.prototype.slice.call(document.querySelectorAll('.path-btn'));
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){
+      var on = b.classList.contains('on');
+      btns.forEach(function(x){ x.classList.remove('on'); });
+      document.querySelectorAll('.mod-card .badge').forEach(function(x){ x.style.display = 'none'; });
+      if(on) return;
+      b.classList.add('on');
+      JSON.parse(b.dataset.seq).forEach(function(id, i){
+        var el = document.querySelector('[data-mod="' + id + '"] .badge');
+        if(el){ el.textContent = i + 1; el.style.display = 'flex'; }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

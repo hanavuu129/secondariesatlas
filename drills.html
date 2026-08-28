@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Drills · Secondaries Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/atlas.css">
+</head>
+<body>
+<header class="topbar"><a class="home" href="../index.html">◂ SECONDARIES ATLAS</a><span class="crumb">PRACTICE DRILLS</span></header>
+<main>
+<section>
+  <div class="sec-head"><span class="rn">PRACTICE DRILLS</span><h2>Practice Drills</h2></div>
+  <p class="lede">Interactive multiple-choice drills covering PE investing logic, LBO mechanics, paper LBO math, valuation, financial analysis, and brain teasers. Concepts are tested from multiple angles — sometimes you solve for the return, sometimes for the multiple that produces it. Answer, read the explanation, move on. Score resets when you change topics or restart.</p>
+
+  <style>
+    .qz-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:18px 0}
+    .qz-pill{font-family:var(--mono);font-size:11px;letter-spacing:.04em;padding:6px 12px;border:1px solid var(--ledger);background:#fff;color:var(--ledger);cursor:pointer}
+    .qz-pill.on{background:var(--ledger);color:#fff}
+    .qz-score{margin-left:auto;font-family:var(--mono);font-size:12px;color:#4a4f47}
+    .qz-card{border:1px solid var(--rule);background:#fff;padding:24px 26px;margin-top:6px}
+    .qz-prog{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--brass);margin-bottom:10px}
+    .qz-q{font-weight:600;font-size:16px;line-height:1.55;margin-bottom:16px;color:#14181a}
+    .qz-opt{display:block;width:100%;text-align:left;padding:11px 14px;margin-bottom:8px;border:1px solid var(--rule);background:var(--paper-2);font:inherit;font-size:14.5px;cursor:pointer;line-height:1.5}
+    .qz-opt:hover:not(:disabled){border-color:var(--ledger)}
+    .qz-opt:disabled{cursor:default;opacity:.85}
+    .qz-opt.right{border-color:#1d6b45;background:#e9f4ec;font-weight:600}
+    .qz-opt.wrong{border-color:var(--neg);background:#faf0ee}
+    .qz-exp{border-left:3px solid var(--brass);background:#faf7ef;padding:12px 16px;margin:14px 0;font-size:14px;display:none}
+    .qz-exp.show{display:block}
+    .qz-next{font-family:var(--mono);font-size:12px;letter-spacing:.08em;padding:10px 20px;background:var(--ledger);color:#fff;border:none;cursor:pointer;display:none}
+    .qz-next.show{display:inline-block}
+    .qz-done{text-align:center;padding:20px 0}
+    .qz-done .big{font-family:var(--display);font-size:36px;color:var(--ledger);font-weight:700}
+    .qz-opt:focus-visible,.qz-pill:focus-visible,.qz-next:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+  </style>
+
+  <div class="qz-bar" id="qzTopics"></div>
+  <div class="qz-card" id="qzCard"></div>
+
+  <script>
+  const QZ = [
+  // ---- PE & Investing ----
+  {t:"PE & Investing", q:"Which of the following is NOT a classic trait PE buyers screen for?", o:["High recurring revenue and a sticky customer base","Strong free cash flow generation","Heavy ongoing capex requirements","A defensible market position"], a:2, e:"Heavy capex consumes the cash flow needed to service and repay debt. The other three make cash flows larger and less risky — exactly what a levered structure requires."},
+  {t:"PE & Investing", q:"Why does PE place special emphasis on cash flow generation, beyond general profitability?", o:["Cash flow determines the accounting net income","Debt service and paydown require actual cash, and paydown is a core return lever","GAAP requires it for purchase accounting","It maximizes the entry multiple"], a:1, e:"Leverage is the model: interest must be paid in cash, and every dollar of debt repaid transfers enterprise value to the equity."},
+  {t:"PE & Investing", q:"An interviewer asks: \"Would you rather a 20% IRR or a 30% IRR?\" The strongest response is to…", o:["Take the 30% — higher is higher","Take the 20% — it's more conservative","Ask about timeframe and the risk/variability of each return before choosing","Refuse to answer without a model"], a:2, e:"The question invites a conversation about investing principles. A 20% IRR over 3 years beats a 30% IRR over 2 years on a multiple basis, and the riskier deal may not be worth it — timeframe, redeployment risk, and margin of safety all matter."},
+  {t:"PE & Investing", q:"Deal A returns 30% IRR over 2 years; Deal B returns 20% IRR over 3 years. Which produces the higher multiple of money?", o:["Deal A (~1.69x)","Deal B (~1.73x)","They're identical","Cannot be determined"], a:1, e:"1.30² ≈ 1.69x vs. 1.20³ ≈ 1.73x. Shorter, higher-IRR deals also force you to re-deploy capital sooner, which introduces deal-making risk."},
+  {t:"PE & Investing", q:"Why might a PE firm deliberately contribute LESS equity than it could?", o:["More leverage may be needed to hit the return threshold","The business doesn't need the capital and shouldn't be overcapitalized","To leave room for a co-investor with skin in the game","All of the above"], a:3, e:"All three are legitimate: leverage lifts IRR, overcapitalized companies waste cash, and co-investors can strengthen governance and the LP relationship."},
+  {t:"PE & Investing", q:"Which industry condition does NOT typically drive heavy M&A and consolidation?", o:["Product development requires high R&D, so incumbents buy proven technology","The TAM has stagnated and organic growth is exhausted","Large cost and cross-selling synergies are available","Every player is growing organically at 30%+ with expanding markets"], a:3, e:"Fast organic growth reduces the need to buy growth. M&A concentrates where organic runway is scarce, synergies are big, or buying beats building R&D."},
+  // ---- LBO Mechanics ----
+  {t:"LBO Mechanics", q:"All else equal in a FULL buyout, target A has zero debt and target B carries 3x EBITDA of debt at the same enterprise value. Your returns are…", o:["Higher with A — cleaner balance sheet","Higher with B — it's already levered","Essentially the same — you control the post-transaction capital structure","Impossible to compare"], a:2, e:"In a control buyout the sponsor refinances and sets whatever structure it wants; pre-deal debt doesn't directly drive returns. What matters is the post-transaction balance sheet."},
+  {t:"LBO Mechanics", q:"When WOULD a target's existing debt genuinely hurt the buyer?", o:["When it carries significant prepayment penalties or make-whole premiums","When the target is profitable","When the debt proves the company can support leverage","When the lender is a large bank"], a:0, e:"Make-whole premiums are a real extra cost to retire the debt at close. (In minority deals, existing structure also matters because you can't change it — and note that existing debt can actually be a mild positive as proof of debt capacity.)"},
+  {t:"LBO Mechanics", q:"Which statement about Sources & Uses is correct?", o:["Sources may exceed uses if the deal is underlevered","Sources and uses must balance — every dollar spent comes from somewhere","Uses exclude transaction fees","Rollover equity appears as a use"], a:1, e:"S&U is the deal's balance check: total sources (debt, sponsor equity, rollover) must exactly equal total uses (purchase equity, refinanced debt, fees, minimum cash)."},
+  {t:"LBO Mechanics", q:"Common rules of thumb for a standard LBO capital structure include all of the following EXCEPT…", o:["Equity is roughly 20–40% of sources","First-year EBITDA / interest coverage above 2.0x","Senior debt repayable within ~5 years","Total leverage of 9–10x EBITDA"], a:3, e:"Typical total leverage runs ~4–6x LTM EBITDA. Nine to ten turns would leave no margin of safety on coverage or paydown."},
+  {t:"LBO Mechanics", q:"Management rolls $50mm of equity and the sponsor invests $200mm of new common. Management's ownership is…", o:["10%","20%","25%","33%"], a:1, e:"Rollover / (Rollover + New Equity) = 50 / 250 = 20%. Rollover moves no cash — it appears as a source embedded in the purchase-equity use."},
+  {t:"LBO Mechanics", q:"How does a LARGER management rollover affect the sponsor's IRR and MoM on its common equity?", o:["IRR rises, MoM falls","Both rise","No impact — all common equity earns the same relative return","Both fall"], a:2, e:"Common is common: everyone is paid pro rata. A bigger rollover shrinks the sponsor's check and ownership, but the percentage return on each dollar is identical."},
+  {t:"LBO Mechanics", q:"The revolver commitment fee is charged on…", o:["The drawn balance","The undrawn portion of the facility","Total enterprise value","EBITDA"], a:1, e:"Fee % × (total facility − amount drawn). It compensates the lender for keeping capital available even when the line sits unused."},
+  {t:"LBO Mechanics", q:"To compute the IRR of any investment you need exactly two things:", o:["Entry multiple and exit multiple","EBITDA and net debt","The magnitude of cash flows and their timing","Revenue growth and margin"], a:2, e:"IRR is the discount rate setting NPV to zero — a pure function of how much cash moves and when. For a single-in, single-out deal it equals the CAGR of your money."},
+  {t:"LBO Mechanics", q:"The core weakness of MoM as a return metric is that it…", o:["Ignores the time value of money","Overstates leverage","Can't handle dividends","Requires a model"], a:0, e:"A 2.0x in 3 years and a 2.0x in 10 years are wildly different investments. That's why IRR and MoM are always presented together."},
+  {t:"LBO Mechanics", q:"If a deal has NO EBITDA growth, NO multiple expansion, and NO debt paydown, the IRR is most likely…", o:["Zero","Slightly positive","Negative — interest expense and transaction fees still bleed value","Equal to the risk-free rate"], a:2, e:"With all three return levers off, fees and interest costs remain — so the investor loses money on a round trip."},
+  {t:"LBO Mechanics", q:"A dividend recapitalization two years into a well-performing deal typically does what to returns?", o:["Raises MoM, lowers IRR","Raises IRR, lowers MoM","Raises both","Changes neither"], a:1, e:"Cash comes back earlier (IRR up, basis de-risked), but the company carries more debt and pays more total interest over the hold (MoM down)."},
+  {t:"LBO Mechanics", q:"In an LBO model, the \"true cost\" of buying the company equals…", o:["Enterprise value exactly","Equity value exactly","Total Uses — close to EV but adjusted for fees, refinanced debt, and required cash","Book value of equity"], a:2, e:"Uses captures every dollar the transaction consumes: shares, debt retired, advisor and financing fees, minimum balance-sheet cash. It matches neither EV nor equity value precisely."},
+  {t:"LBO Mechanics", q:"An earn-out is best described as…", o:["A prepayment penalty on debt","A contingent payout to management/sellers for hitting agreed targets, limiting upfront dilution","A type of revolver","Accelerated vesting of options"], a:1, e:"It bridges valuation gaps and keeps management incentivized post-close — pay more only if the performance shows up."},
+  // ---- Paper LBO Math ----
+  {t:"Paper LBO Math", q:"Flat $10mm EBITDA, bought at 5.0x with 3.0x of net debt. Management holds options worth 20% of total equity. You exit at 9.0x with net debt paid down 50%. Sponsor MoM?", o:["2.0x","2.5x","3.0x","3.75x"], a:2, e:"Entry: EV $50, debt $30, equity $20. Exit: TEV $90 − debt $15 = $75 total equity; sponsor gets 80% = $60. $60 / $20 = 3.0x."},
+  {t:"Paper LBO Math", q:"Same setup — flat $10mm EBITDA, 5.0x entry, 3.0x net debt, management 20%, debt paid down 50%. What exit multiple do you NEED for a 3.0x sponsor MoM?", o:["7.0x","8.0x","9.0x","10.0x"], a:2, e:"Work backwards: sponsor needs $60 → total equity $60/0.8 = $75 → add ending debt $15 → TEV $90 → on $10 EBITDA that's 9.0x. Same facts, reversed unknown — practice both directions."},
+  {t:"Paper LBO Math", q:"Using the Rule of 72, doubling your money in 4 years implies an IRR of roughly…", o:["12%","15%","18%","24%"], a:2, e:"72 / 4 = ~18%. The Rule of 72 approximates the rate at which money doubles: rate × years ≈ 72."},
+  {t:"Paper LBO Math", q:"Quadrupling your money (4.0x) in 5 years implies an IRR of roughly…", o:["~20%","~25%","~29%","~40%"], a:2, e:"Rule of 144 (doubling twice): 144 / 5 ≈ 29%. The precise answer is ~32%, but ballpark is what paper LBOs test."},
+  {t:"Paper LBO Math", q:"A 2.0x MoM over 3 years is approximately what IRR?", o:["~15%","~19%","~24%","~33%"], a:2, e:"72 / 3 = ~24% (actual ~26%). Being within a couple points is fine in an interview — the method matters more than the decimal."},
+  {t:"Paper LBO Math", q:"Initial net debt is $100mm. Over the hold the business generates $58mm of cumulative cash flow BEFORE capex. To hit your target MoM, ending net debt can be at most $60mm. Cumulative capex can be at most…", o:["$8mm","$18mm","$42mm","$58mm"], a:1, e:"Without capex, debt lands at 100 − 58 = $42mm. You only need $60mm — so there's an $18mm cushion available to spend on capex. Classic back-solve for margin of safety."},
+  {t:"Paper LBO Math", q:"A $100mm preferred instrument PIKs at 10% for 5 years. At exit its claim has grown to roughly…", o:["$110mm","$150mm","$161mm","$200mm"], a:2, e:"PIK compounds: 100 × 1.1⁵ ≈ $161mm. Every dollar of that accretion comes out of common equity's exit proceeds — structure can make a growing company a bad investment for the common."},
+  // ---- Valuation & EV ----
+  {t:"Valuation & EV", q:"The two factors most fundamental to higher valuation multiples are…", o:["Dividend yield and beta","Growth and return on capital / profitability","Headcount and geography","Leverage and share count"], a:1, e:"Multiples are compressed expectations of future cash flow. Businesses that grow fast and reinvest at high returns earn premium multiples in both public and private markets."},
+  {t:"Valuation & EV", q:"Two companies have identical EV/EBITDA multiples and business models but different P/E ratios. Which could explain it?", o:["Different debt loads and interest expense","Different D&A policies or asset bases","Different tax situations (geographies, NOLs, DTAs/DTLs)","All of the above"], a:3, e:"P/E lives below the interest, D&A, and tax lines that EV/EBITDA deliberately ignores — any difference in those layers splits the two multiples."},
+  {t:"Valuation & EV", q:"Holding a 12x EBITDA multiple, which adds more enterprise value: +$1 of EBITDA or +$1 of equity value?", o:["+$1 of equity value","+$1 of EBITDA — it gets multiplied (≈$12 of EV here)","They're identical","Neither affects EV"], a:1, e:"EBITDA improvements compound through the multiple; a dollar of equity value is just a dollar. This is exactly why sponsors obsess over EBITDA adjustments and add-backs."},
+  {t:"Valuation & EV", q:"In a DCF, rank the value impact of these isolated $10 changes, from most to least beneficial:", o:["Revenue increase > expense cut > capex cut","Expense cut > capex cut > revenue increase","Capex cut > expense cut > revenue increase","All identical"], a:2, e:"Capex is a direct, untaxed use of cash (+$10). An expense cut is taxed (+$10 × (1−t)). Revenue carries variable costs, so only margin × (1−t) flows through."},
+  {t:"Valuation & EV", q:"When is a $10 revenue increase worth the SAME as a $10 expense cut in a DCF?", o:["When revenue rises from a pure price increase with no added cost","When tax rates are zero","When the company is unlevered","Never"], a:0, e:"A pure price increase carries no incremental variable cost, so it flows to cash flow as efficiently as a cost cut — which is why pricing and cost programs are diligence favorites."},
+  {t:"Valuation & EV", q:"Raising debt in year 3 of a standard unlevered DCF does what to the projected free cash flows?", o:["Reduces them by the interest expense","Nothing directly — unlevered FCF is capital-structure neutral (though WACC could shift)","Increases them by the proceeds","Doubles the terminal value"], a:1, e:"The DCF values cash available to ALL capital providers. Financing choices show up in WACC (cost of debt, levered beta), not in unlevered FCF."},
+  {t:"Valuation & EV", q:"A sponsor levers a deal to 4x when lenders offered 5x. Which is a plausible reason?", o:["The company can't safely support the full amount","Preserving debt capacity for a future dividend recap in better markets","Wanting to deploy a larger equity check, or protecting credit ratings","All of the above"], a:3, e:"Max leverage isn't automatic: sustainability, optionality, fund deployment goals, and ratings dynamics all argue for restraint at times."},
+  {t:"Valuation & EV", q:"EBITDA grows $100mm → $120mm over 5 years, you pay down $25mm of debt per year, and the multiple moves 5.0x → 6.0x. Total equity value created?", o:["$220mm","$245mm","$345mm","$470mm"], a:2, e:"ΔTEV = 720 − 500 = $220mm, plus 5 × $25mm = $125mm of paydown → $345mm. Decomposed: multiple expansion $120 + EBITDA growth $100 + paydown $125."},
+  // ---- Financial Analysis ----
+  {t:"Financial Analysis", q:"As production volume rises, per-unit costs behave how?", o:["Variable per-unit falls, fixed per-unit constant","Variable per-unit constant, fixed per-unit falls","Both fall","Both constant"], a:1, e:"A unit's variable cost is the same whether you make 1 or 1 million; fixed costs get spread over more units, so fixed cost per unit declines with scale."},
+  {t:"Financial Analysis", q:"The ideal profile for HIGH operating leverage is a business with…", o:["Unpredictable, cyclical sales","Predictable, growing sales volume","No fixed costs","Negative gross margins"], a:1, e:"High fixed costs plus low incremental cost means profits explode past breakeven — but only if the volume shows up. High operating leverage + predictable demand is the sweet spot; the same structure with shaky demand is a trap."},
+  {t:"Financial Analysis", q:"When building the Sources & Uses, which value of existing debt do you use?", o:["Book value from the balance sheet","Face value — what you'd actually pay to take it out","Market value of the equity","Amortized historical cost"], a:1, e:"Book value can embed amortized discounts/fees; the transaction must repay face (plus any make-whole). Pull inputs from the debt footnote, not the balance-sheet line."},
+  {t:"Financial Analysis", q:"Revenue grows by $10. In most cases EBITDA grows…", o:["By exactly $10","By more than $10","By less than $10, since variable costs rise with revenue","Not at all"], a:2, e:"Flow-through is margin-dependent. The exception: a pure price increase, where EBITDA can capture the full $10."},
+  {t:"Financial Analysis", q:"A company sells 200 units at $8 each; each unit costs $5 to make; fixed costs are $360. Its EBITDA margin is…", o:["10%","15%","22.5%","30%"], a:1, e:"Revenue $1,600 − variable $1,000 − fixed $360 = $240 EBITDA → 15%. Same unit-economics build as any breakeven question: know it cold."},
+  {t:"Financial Analysis", q:"Same company (unit profit $3, fixed costs $360): how many units to break even?", o:["100","120","144","180"], a:1, e:"Fixed costs / profit per unit = 360 / 3 = 120 units. Breakeven is where cumulative unit profit clears the fixed base."},
+  {t:"Financial Analysis", q:"Cash conversion cycle with DIO 60, DSO 40, DPO 70 is…", o:["30 days","50 days","90 days","170 days"], a:0, e:"CCC = DIO + DSO − DPO = 60 + 40 − 70 = 30 days. A NEGATIVE cycle means suppliers effectively finance operations — customers pay you before you pay them."},
+  {t:"Financial Analysis", q:"Writing UP an acquired asset in purchase accounting typically creates…", o:["A deferred tax asset","A deferred tax liability","Goodwill impairment","No tax effect"], a:1, e:"The write-up raises book D&A, cutting book taxes now relative to cash taxes owed over time — book taxes < cash taxes going forward, i.e., a DTL."},
+  {t:"Financial Analysis", q:"During a period of RISING input costs, which is true?", o:["LIFO shows higher profits; FIFO shows higher cash flow","FIFO shows higher profits; free cash flow is identical under both","LIFO and FIFO show identical profits","FIFO shows higher profits AND higher free cash flow"], a:1, e:"FIFO expenses the older, cheaper inventory → higher margins and net income. But FCF is neutral to accounting choice — the working-capital line offsets the income effect."},
+  {t:"Financial Analysis", q:"You raise prices 10% and lose 10% of units. Revenue…", o:["Is unchanged","Rises 1%","Falls 1%","Falls 10%"], a:2, e:"1.10 × 0.90 = 0.99 — down 1%. Symmetric percentage moves multiply, they don't cancel."},
+  // ---- Brain Teasers ----
+  {t:"Brain Teasers", q:"You invest $250mm and receive $50mm at the end of each year for 5 years. The discount rate that sets NPV to zero is…", o:["0%","5%","10%","20%"], a:0, e:"Undiscounted inflows ($250mm) exactly equal the outflow — so only a 0% rate makes them net to zero. The setup signals a simple answer, not five discounting calculations."},
+  {t:"Brain Teasers", q:"Same investment, but the $50mm payments run for SIX years instead of five. The IRR is now…", o:["Exactly 0%","Positive","Negative","Undefined"], a:1, e:"Total inflows ($300mm) exceed the $250mm outflow, so a positive discount rate is needed to pull NPV back to zero. Spin the givens, re-test the logic."},
+  {t:"Brain Teasers", q:"The beta of a lottery ticket is…", o:["0 — its outcome is uncorrelated with the market","1 — it moves with the market","2 — it's very risky","Undefined"], a:0, e:"Beta measures co-movement with the market, not riskiness per se. A random-chance payoff has zero correlation with equity returns — enormous risk, zero beta."},
+  {t:"Brain Teasers", q:"A company with a Price-to-Book ratio ABOVE 1.0 goes ex-dividend, and both price and book fall by the dividend amount. The P/B ratio…", o:["Falls","Rises","Stays exactly the same","Goes to 1.0"], a:1, e:"Subtracting the same amount from numerator and denominator pushes a >1 ratio higher (8:4 → 7:3), a <1 ratio lower, and leaves 1:1 unchanged. Write fractions down before answering."},
+  {t:"Brain Teasers", q:"You receive $10 at end of year 1, $20 at year 2, $30 at year 3, growing by $10 forever. At a 10% discount rate, the present value is…", o:["$100","$550","$1,000","$1,100"], a:3, e:"Decompose: a level $10 perpetuity is worth $100. Each year you also \"gain\" another $10 perpetuity — a $100-per-year perpetuity worth $1,000. Total: $1,100."},
+  {t:"Brain Teasers", q:"Gold's USD spot price rises, but a Canadian gold-miner ETF FALLS the same day. The most instructive explanation is…", o:["Gold and gold miners are unrelated","A falling USD/CAD move hurt CAD-cost miners more than the gold move helped","ETFs always lag by a week","Gold miners hold no gold"], a:1, e:"Miners earn USD-linked revenue against CAD costs — a big enough FX move swamps the commodity move. (An idiosyncratic blowup at one large holding, or an inverse ETF, also work as answers.)"}
+  ];
+
+  (function(){
+    const topics = ["All"].concat([...new Set(QZ.map(x=>x.t))]);
+    const bar = document.getElementById('qzTopics');
+    const card = document.getElementById('qzCard');
+    let pool = [], idx = 0, score = 0, topic = "All";
+
+    function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+    function renderBar(){
+      bar.innerHTML = "";
+      topics.forEach(t=>{
+        const b = document.createElement('button');
+        b.className = 'qz-pill' + (t===topic ? ' on':'');
+        b.textContent = t;
+        b.onclick = ()=>{ topic=t; start(); };
+        bar.appendChild(b);
+      });
+      const s = document.createElement('span');
+      s.className = 'qz-score'; s.id = 'qzScore';
+      bar.appendChild(s);
+      updateScore();
+    }
+
+    function updateScore(){
+      const el = document.getElementById('qzScore');
+      if(el) el.textContent = 'SCORE ' + score + ' / ' + idx;
+    }
+
+    function start(){
+      pool = shuffle(QZ.filter(x => topic==="All" || x.t===topic).slice());
+      idx = 0; score = 0;
+      renderBar(); renderQ();
+    }
+
+    function renderQ(){
+      if(idx >= pool.length){
+        const pct = pool.length ? Math.round(100*score/pool.length) : 0;
+        try{var _k='atlas_drill_'+topic;var _p=+(localStorage.getItem(_k)||0);if(pct>_p)localStorage.setItem(_k,String(pct));}catch(e){}
+        card.innerHTML = '<div class="qz-done"><div class="qz-prog">DRILL COMPLETE</div><div class="big">' + score + ' / ' + pool.length + '</div><p>' + (pct>=85?'Interview-ready on this set. Rotate topics and keep the reps going.':pct>=60?'Solid base — reread the explanations you missed, then rerun the set.':'Worth rereading the relevant sections above before another pass.') + '</p><button class="qz-next show" id="qzRestart">RESTART DRILL</button></div>';
+        document.getElementById('qzRestart').onclick = start;
+        return;
+      }
+      const q = pool[idx];
+      const order = shuffle(q.o.map((_,i)=>i));
+      let html = '<div class="qz-prog">' + q.t.toUpperCase() + ' — QUESTION ' + (idx+1) + ' OF ' + pool.length + '</div>';
+      html += '<div class="qz-q">' + q.q + '</div>';
+      order.forEach(oi=>{ html += '<button class="qz-opt" data-i="' + oi + '">' + q.o[oi] + '</button>'; });
+      html += '<div class="qz-exp" id="qzExp"></div>';
+      html += '<button class="qz-next" id="qzNext">NEXT →</button>';
+      card.innerHTML = html;
+      card.querySelectorAll('.qz-opt').forEach(btn=>{
+        btn.onclick = ()=>{
+          const pick = +btn.dataset.i;
+          card.querySelectorAll('.qz-opt').forEach(b=>{
+            b.disabled = true;
+            if(+b.dataset.i === q.a) b.classList.add('right');
+          });
+          if(pick === q.a){ score++; } else { btn.classList.add('wrong'); }
+          idx++;
+          updateScore();
+          const exp = document.getElementById('qzExp');
+          exp.textContent = q.e; exp.classList.add('show');
+          document.getElementById('qzNext').classList.add('show');
+          document.getElementById('qzNext').onclick = ()=>{ renderQ(); };
+        };
+      });
+    }
+    start();
+  })();
+  </script>
+</section>
+<nav class="pager"><a href="recruiting.html">← 09 · Recruiting & Interviews</a><button id="markDone" class="done-btn" type="button"></button><a href="glossary.html">GL · Glossary →</a></nav>
+</main>
+<script src="../js/atlas.js"></script>
+<script>Atlas.initPage("drills");</script>
+</body>
+</html>
