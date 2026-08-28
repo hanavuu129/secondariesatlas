@@ -9,8 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="atlas.css">
 </head>
-<body>
-<header class="topbar"><a class="home" href="index.html">◂ SECONDARIES ATLAS</a><span class="crumb">MODULE 02 · PE FUND MECHANICS</span></header>
+<body class="v2 ">
+<div id="sidenav"></div>
 <main>
 <section>
   <div class="sec-head"><span class="rn">MODULE 02</span><h2>Private Equity Fund Mechanics</h2></div>
@@ -58,6 +58,16 @@ IRR   = discount rate where NPV of cash flows = 0   (time-weighted)</div>
     <span class="tag">Interview favorite</span>
     <p><strong>"A fund shows a 25% net IRR but 1.3x DPI in year 8 — is it a good fund?"</strong> Be skeptical: high IRR with low realized distributions late in fund life suggests early wins were small, marks may be stale, and the IRR is riding on unrealized NAV. Ask about the subscription line, the pace of exits, and where the residual value sits.</p>
   </div>
+
+<h3 id="cv-econ">The continuation-vehicle waterfall — how it differs</h3>
+<p>CV economics are the traditional waterfall with four systematic changes. Buyers negotiate all of them:</p>
+<ul><li><strong>Reset basis:</strong> the waterfall restarts from the CV’s purchase price, not original cost. The GP’s old carry <strong>crystallizes</strong> at the transaction — and the core alignment ask is that it rolls into the CV rather than cashing out.</li><li><strong>Lower fee, tighter basis:</strong> commonly ~1% on <em>invested</em> capital (vs. ~2% on committed in flagships) — the buyer is paying for asset management, not sourcing.</li><li><strong>Tiered carry:</strong> e.g., 10% to a 1.75–2.0x gross hurdle, stepping to 15–20% above — roughly a quarter of recent CV deals included a premium tier. The GP earns flagship-level economics only for genuine outperformance on the reset basis.</li><li><strong>Shorter duration, no recycling:</strong> 3–5 year horizons with limited extensions, defined follow-on capital, and typically no reinvestment rights.</li></ul>
+<h4>Worked contrast: European vs. deal-by-deal (and the clawback)</h4>
+<p>Fund makes two $100M deals. Deal A returns $300M in year 3; Deal B returns $50M in year 6. Total: $350M on $200M — $150M profit, so total carry should be $30M (ignore pref for arithmetic clarity).</p>
+<table><tr><th>Waterfall</th><th>Year 3</th><th>Year 6</th><th>Outcome</th></tr><tr><td><strong>European (whole-fund)</strong></td><td class="num">No carry — LPs still below total capital + pref</td><td class="num">$30M carry</td><td>GP waits; clean</td></tr><tr><td><strong>American (deal-by-deal)</strong></td><td class="num">$40M carry on Deal A (20% × $200M gain)</td><td class="num">Deal B loses $50M → GP has taken $10M too much</td><td><strong>Clawback</strong> obligation: GP returns the excess — typically net of taxes already paid, secured by escrows (often 20–30% of carry held back) and personal guarantees</td></tr></table>
+<p>Deal-by-deal pays the GP earlier (better for GP retention economics), which is why LPs demand interim clawback tests, escrow accounts, and net-loss carryforward language. Know the phrase <strong>“net of tax” clawback</strong> — LPs rarely recover 100 cents.</p>
+<h3 id="nuances">Nuances you don’t see in the textbook</h3>
+<ul><li><strong>Catch-up percentage varies:</strong> 100% catch-up is common but 50% catch-ups exist — slowing the GP’s path to full carry and meaningfully improving LP economics in moderate-return scenarios.</li><li><strong>Hard vs. soft hurdles:</strong> a soft hurdle (pref + catch-up) pays carry on <em>all</em> profit once cleared; a hard hurdle pays carry only on profit <em>above</em> the hurdle — no catch-up. Same 8% headline, very different GP economics.</li><li><strong>Fee basis mechanics:</strong> the step-down from committed to invested capital after the investment period, plus rate reductions when a successor fund starts charging — LPs watch for “double-dipping” windows.</li><li><strong>Fee offsets:</strong> portfolio-company fees (monitoring, transaction, director) now typically offset management fees 100% — a decade ago GPs kept a share; legacy funds still vary.</li><li><strong>Subscription lines and IRR:</strong> delaying capital calls 6–12 months can add hundreds of bps to early IRR while leaving MOIC untouched — which is why sophisticated LPs ask for since-inception returns both with and without the facility.</li><li><strong>NAV facilities:</strong> fund-level loans against portfolio value — used for follow-ons or accelerating distributions. Controversial when they add leverage LPs didn’t underwrite; ILPA now recommends LPAC consent and disclosure.</li><li><strong>Recycling:</strong> rights to reinvest early proceeds (often capped at 100–120% of commitments) — extends deployment, defers DPI.</li><li><strong>GP commit financing:</strong> a GP commit funded via fee waivers is cashless — alignment on paper, weaker in substance. Buyers and LPs increasingly ask how the commit is actually funded.</li><li><strong>Key person &amp; removal:</strong> key-person events typically suspend the investment period automatically; removal comes in for-cause (low threshold, misconduct) and no-fault (supermajority, often with a carry haircut) flavors.</li><li><strong>Transfer restrictions &amp; ROFRs:</strong> the LPA plumbing that makes every LP-led secondary a consent exercise — and gives GPs quiet control over who owns their fund.</li></ul>
 </section>
 <div class="tool" id="tool-waterfall">
   <span class="tag">Interactive Tool</span>
@@ -105,8 +115,7 @@ IRR   = discount rate where NPV of cash flows = 0   (time-weighted)</div>
   })();
   </script>
 </div>
-
-<nav class="pager"><a href="map.html">← 01 · The Buyside Map</a><button id="markDone" class="done-btn" type="button"></button><a href="lbo.html">03 · LBO Mechanics →</a></nav>
+<div class="pagefoot"><button id="markDone" class="done-btn" type="button"></button></div>
 </main>
 <script src="atlas.js"></script>
 <script>Atlas.initPage("fund-mechanics");</script>

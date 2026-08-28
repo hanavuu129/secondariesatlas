@@ -9,8 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="atlas.css">
 </head>
-<body>
-<header class="topbar"><a class="home" href="index.html">◂ SECONDARIES ATLAS</a><span class="crumb">MODULE 09 · RECRUITING & INTERVIEWS</span></header>
+<body class="v2 acc-g">
+<div id="sidenav"></div>
 <main>
 <section>
   <div class="sec-head"><span class="rn">MODULE 09</span><h2>The Recruiting Machine</h2></div>
@@ -156,8 +156,20 @@
     <span class="tag">Delivery notes</span>
     <p>Write answers as <em>spoken scripts</em>, not essays — short sentences, natural connectors, numbers you can say out loud. Rehearse until you can compress each answer to 60% of its length on demand; senior interviewers reward candidates who can land the point and stop talking.</p>
   </div>
+
+<h3 id="jobs">Job dashboard</h3>
+<p style="font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--brass);text-transform:uppercase;margin-bottom:12px">Listings observed August 2026 — always verify live before applying</p>
+<p>A static site can’t stream postings, so this dashboard works in two layers: a snapshot of real openings observed as of the stamp above, and one-click live searches that always show today’s market.</p>
+<h4>Openings snapshot (observed Aug 2026)</h4>
+<table><tr><th>Firm</th><th>Role</th><th>Location</th><th>Angle</th></tr><tr><td>Ares Management</td><td>Analyst, Private Equity Secondaries</td><td>New York</td><td>1–3 yrs IB/PE/secondaries — classic entry seat at a scaled credit-and-secondaries platform</td></tr><tr><td>Morgan Stanley IM</td><td>Analyst/Associate, PE Secondaries</td><td>New York</td><td>Platform seat spanning fund operations, fundraising, and market analysis</td></tr><tr><td>Guggenheim</td><td>Associate/VP, GP-Led Advisory</td><td>New York</td><td>Sell-side GP-led advisory — the direct peer path to PCA teams</td></tr><tr><td>Adams Street Partners</td><td>Associate (multiple teams)</td><td>Chicago / New York</td><td>Primaries-secondaries-co-invest flywheel; strong pipeline from advisory seats</td></tr></table>
+<p class="tbl-note">Snapshot only — titles and availability change weekly. Treat as evidence of an active market, then run the live searches below.</p>
+<h4>Live searches — always current</h4>
+<div class="jobs-bar"><a href="https://www.linkedin.com/jobs/search/?keywords=private%20equity%20secondaries%20associate&location=New%20York" target="_blank" rel="noopener">LinkedIn: Secondaries Associate · NY</a><a href="https://www.linkedin.com/jobs/search/?keywords=GP-led%20secondaries" target="_blank" rel="noopener">LinkedIn: GP-Led roles</a><a href="https://www.linkedin.com/jobs/search/?keywords=co-investment%20associate%20private%20equity" target="_blank" rel="noopener">LinkedIn: Co-Investment Associate</a><a href="https://www.linkedin.com/jobs/search/?keywords=secondaries%20analyst&location=London" target="_blank" rel="noopener">LinkedIn: Secondaries · London</a><a href="https://www.glassdoor.com/Job/new-york-analyst-private-equity-secondaries-jobs-SRCH_IL.0,8_IC1132348_KO9,43.htm" target="_blank" rel="noopener">Glassdoor: Secondaries · NY</a><a href="https://www.indeed.com/q-associate-private-equity-secondaries-fund-l-new-york-state-jobs.html" target="_blank" rel="noopener">Indeed: Secondaries · NY State</a><a href="https://www.efinancialcareers.com/jobs?q=secondaries" target="_blank" rel="noopener">eFinancialCareers: Secondaries</a></div>
+<h4>Firm radar — check careers pages directly</h4>
+<p>Buyers hiring most consistently for secondaries and co-invest seats: <strong>Blackstone Strategic Partners, Ardian, Lexington, HarbourVest, AlpInvest, Goldman Vintage, StepStone, Coller, ICG, Pantheon, Hamilton Lane, Neuberger Berman, CPPIB, Adams Street, Partners Group</strong> — plus advisory teams at <strong>Evercore, Jefferies, Lazard, PJT Park Hill, Campbell Lutyens, Guggenheim, William Blair</strong>. Many post to their own portals before (or instead of) job boards, so a weekly sweep of ten careers pages beats any aggregator.</p>
+<div class="callout"><span class="tag">Workflow tip</span><p>Set LinkedIn alerts on the searches above, sweep the firm radar weekly, and log everything in one tracker with status and contact columns. Most secondaries seats are filled off-cycle through headhunters (Oxbridge and BellCast are disproportionately active here) and warm referrals — the dashboard finds the opening; the coffee chat wins it.</p></div>
 </section>
-<nav class="pager"><a href="hedge-funds.html">← 08 · Hedge Funds</a><button id="markDone" class="done-btn" type="button"></button><a href="drills.html">DR · Practice Drills →</a></nav>
+<div class="pagefoot"><button id="markDone" class="done-btn" type="button"></button></div>
 </main>
 <script src="atlas.js"></script>
 <script>Atlas.initPage("recruiting");</script>

@@ -9,14 +9,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="atlas.css">
 </head>
-<body>
-<header class="topbar"><a class="home" href="index.html">◂ SECONDARIES ATLAS</a><span class="crumb">MODULE 07 · CO-INVESTMENTS</span></header>
+<body class="v2 acc-f">
+<div id="sidenav"></div>
 <main>
-<section>
-  <div class="sec-head"><span class="rn">MODULE 07</span><h2>Co-Investments</h2></div>
-  <p class="lede">A co-investment is an LP investing directly into a deal <em>alongside</em> a GP's fund — typically at reduced or zero fee and carry. It's the fastest-growing "cheap beta plus selection alpha" corner of private markets.</p>
-
-  <h3>Mechanics</h3>
+<div class="sec-head"><span class="rn">TRANSACTION TYPES</span><h2>Co-Investments</h2></div>
+<p class="lede">Direct investment alongside a GP’s fund, typically fee-free — the fastest-growing corner of LP portfolios and the natural sibling of secondaries: same GP-relationship engine, single-asset instead of portfolio underwriting.</p>
+<div class="chips"><div class="chip"><b>0 / 0</b><span>Typical fees / carry</span></div><div class="chip"><b>300–500bps</b><span>Net return uplift</span></div><div class="chip"><b>2–4 wks</b><span>Syndicated windows</span></div><div class="chip"><b>Mega-deals</b><span>Where supply spikes</span></div></div>
+<h3>Mechanics</h3>
   <ul>
     <li><strong>Why GPs offer it:</strong> to write bigger equity checks than the fund's concentration limits allow, to deepen LP relationships (a fundraising sweetener), and to reduce reliance on syndication.</li>
     <li><strong>Why LPs love it:</strong> fee drag on a 2/20 fund is enormous — co-invest at 0/0 can add 300–500bps of net return; plus deal selection and faster deployment.</li>
@@ -25,12 +24,57 @@
     <li><strong>What the buyer's job looks like:</strong> rapid re-underwriting of the GP's model (stress the base case, kill the synergies, check the debt package), reference the GP's history in the sector, negotiate governance (board observer, information rights, tag/drag), decide in days not months.</li>
   </ul>
 
-  <div class="callout">
-    <span class="tag">Compare-and-contrast question</span>
-    <p><strong>"Secondaries vs. co-invest — how do the skill sets differ?"</strong> Secondaries is portfolio-level underwriting: many assets, GP behavior, pricing discipline, structuring. Co-invest is single-asset underwriting at deal speed: closer to direct PE judgment, but exercised through the lens of someone else's process. The best platforms run both because the information compounds — CV flow informs co-invest views on GPs and vice versa.</p>
+  
+<div class="tool" id="tool-feedrag">
+  <span class="tag">Interactive Tool</span>
+  <h3>Fee-Drag Blender</h3>
+  <p>The whole co-investment pitch in one widget: blend a 2-and-20 fund position with no-fee co-invest and watch the net return move. Per $100 of gross value creation at the same underlying performance.</p>
+  <div class="trow"><label for="fd_m">Gross MOIC (both sleeves)</label><input type="range" id="fd_m" min="1.2" max="3" step="0.1" value="2"><output id="fd_m_v"></output></div>
+  <div class="trow"><label for="fd_t">Hold (years)</label><input type="range" id="fd_t" min="3" max="7" step="1" value="5"><output id="fd_t_v"></output></div>
+  <div class="trow"><label for="fd_w">Co-invest share of your capital (%)</label><input type="range" id="fd_w" min="0" max="60" step="5" value="30"><output id="fd_w_v"></output></div>
+  <div class="tstats">
+    <div class="tstat"><span class="k">Fund sleeve net MOIC</span><span class="v" id="fd_fn"></span></div>
+    <div class="tstat"><span class="k">Co-invest net MOIC</span><span class="v" id="fd_cn"></span></div>
+    <div class="tstat"><span class="k">Blended net MOIC</span><span class="v" id="fd_bn"></span></div>
+    <div class="tstat"><span class="k">Blended net IRR</span><span class="v" id="fd_bi"></span></div>
   </div>
-</section>
-<nav class="pager"><a href="secondaries.html">← 06 · Secondaries & GP-Leds</a><button id="markDone" class="done-btn" type="button"></button><a href="hedge-funds.html">08 · Hedge Funds →</a></nav>
+  <p class="tnote">Fund sleeve assumes 2% annual fees on invested plus 20% carry over an 8% pref (simplified, no catch-up). Co-invest assumes 0/0. This is why LPs fight for allocation — same deals, hundreds of basis points of net difference.</p>
+  <script>
+  (function(){
+    var $ = function(id){ return document.getElementById(id); };
+    function net2and20(m, T){
+      var inv=100, fees=2*T, afterFee=inv*m-fees;
+      var profit=Math.max(afterFee-inv,0);
+      var pref=inv*(Math.pow(1.08,T)-1);
+      var carry=0.2*Math.max(profit-pref,0);
+      return (afterFee-carry)/inv;
+    }
+    function calc(){
+      var m=+$('fd_m').value, T=+$('fd_t').value, w=+$('fd_w').value/100;
+      $('fd_m_v').value=m.toFixed(1)+'x'; $('fd_t_v').value=T+' yrs'; $('fd_w_v').value=(w*100).toFixed(0)+'%';
+      var fn=net2and20(m,T), cn=m;
+      var bn=(1-w)*fn+w*cn;
+      $('fd_fn').textContent=fn.toFixed(2)+'x';
+      $('fd_cn').textContent=cn.toFixed(2)+'x';
+      $('fd_bn').textContent=bn.toFixed(2)+'x';
+      $('fd_bi').textContent=((Math.pow(Math.max(bn,0.0001),1/T)-1)*100).toFixed(1)+'%';
+    }
+    ['fd_m','fd_t','fd_w'].forEach(function(id){ $(id).addEventListener('input',calc); });
+    calc();
+  })();
+  </script>
+</div>
+<h3>Where the market is</h3>
+<ul><li><strong>Structural growth:</strong> as deal sizes rebound (mega take-privates returned in 2025–26, including the largest LBO on record), sponsors increasingly rely on LP co-capital to fill equity checks — co-invest supply tracks deal size.</li><li><strong>Institutionalization:</strong> dedicated co-invest funds at the big platforms (HarbourVest, AlpInvest, Hamilton Lane, Lexington, StepStone) have turned an LP perk into a standalone asset class with its own fundraising cycle.</li><li><strong>Mid-life capital:</strong> structured/preferred co-investments into existing portfolio companies blur into GP-led secondaries — the same buyers increasingly do both, which is why recruiting for the two overlaps.</li></ul>
+<h3>Interview questions — basic to advanced</h3>
+<details><summary><span class="lvl b">BASIC</span>Why do GPs give away co-investment for free?</summary><div class="a"><p>It’s not charity — it’s currency. Co-invest lets the GP write a bigger equity check than fund concentration limits allow, keeps deals from being syndicated to rivals, and rewards LPs who commit to the next flagship. The “free” economics are the price of deal capacity and fundraising loyalty.</p></div></details>
+<details><summary><span class="lvl b">BASIC</span>Why do LPs want it so badly?</summary><div class="a"><p>Fee math: 2-and-20 drag costs several hundred basis points of net return; co-invest at 0/0 keeps all of it. Plus deal selection (choose your spots), faster deployment, and a closer look at how the GP actually operates — valuable diligence for the next fund commitment.</p></div></details>
+<details><summary><span class="lvl i">INTERMEDIATE</span>Syndicated co-invest vs. co-underwriting — what's the real difference for the investor?</summary><div class="a"><p>Timing and information. Syndicated: post-signing, 2–4 week window, GP’s diligence pack — you’re underwriting the sponsor’s judgment as much as the asset. Co-underwriting: at the table pre-signing with primary diligence access, real influence on terms, sometimes a fee for the commitment risk — and a much bigger team requirement. Platforms graduate from the first to the second as they scale.</p></div></details>
+<details><summary><span class="lvl i">INTERMEDIATE</span>What governance rights does a co-investor actually get?</summary><div class="a"><p>Usually modest: board observer (not a seat), information rights, tag-along, and drag obligations; consent rights only on narrow items like affiliate transactions. You are structurally a passenger — which is why underwriting the driver (the GP’s track record in this exact sector and playbook) is most of the work.</p></div></details>
+<details><summary><span class="lvl a">ADVANCED</span>Is adverse selection in co-investment real? What does the evidence say?</summary><div class="a"><p>The clean version — GPs dumping bad deals on LPs — is mostly not supported: offered deals perform roughly in line with fund deals. The subtle version is real: co-invest supply spikes when deals are biggest, sectors are hottest, and vintages are toppiest, because that’s when GPs need the most co-capital. So a passive co-invest program overweights exactly the moments to be cautious. The fix is discipline on pace and price, not suspicion of motive.</p></div></details>
+<details><summary><span class="lvl a">ADVANCED</span>How would you evaluate a mid-life (structured) co-investment — fresh capital into an existing portfolio company?</summary><div class="a"><p>It’s halfway to a single-asset secondary: known asset, incumbent sponsor, but new-money terms. Underwrite (1) use of proceeds — offense (M&amp;A, growth) vs. defense (deleveraging, covenant relief) changes everything; (2) entry basis vs. the sponsor’s — you’re often buying at today’s mark, so the mark’s credibility is the deal; (3) structure — these frequently come as preferred with a floor return plus equity upside, so model the downside protection honestly; (4) alignment — is the sponsor writing new money alongside you, or just selling you dilution?</p></div></details>
+
+<div class="pagefoot"><button id="markDone" class="done-btn" type="button"></button></div>
 </main>
 <script src="atlas.js"></script>
 <script>Atlas.initPage("coinvest");</script>

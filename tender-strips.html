@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tenders & Strip Sales · Secondaries Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="atlas.css">
+</head>
+<body class="v2 acc-e">
+<div id="sidenav"></div>
+<main>
+<div class="sec-head"><span class="rn">TRANSACTION TYPES</span><h2>Tender Offers &amp; Strip Sales</h2></div>
+<p class="lede">The lighter-touch GP-led structures: tenders move LP interests without touching assets; strip sales move a proportional slice of assets without picking winners. Smaller than CVs by volume, but every secondaries professional needs both cold.</p>
+<div class="chips"><div class="chip"><b>Optionality</b><span>Tender core feature</span></div><div class="chip"><b>Pro-rata</b><span>Strip core feature</span></div><div class="chip"><b>Single-digit–20%</b><span>Typical tender uptake</span></div><div class="chip"><b>Staples</b><span>The controversy</span></div></div>
+<h3>Tender offers — how they work</h3>
+<ol><li>GP (usually via an advisor) invites secondary buyers to bid for the right to offer liquidity to its LP base.</li><li>Winning buyer sets a price — % of NAV — open to all LPs for an election window (weeks).</li><li>LPs individually choose: sell some, all, or nothing. Oversubscription triggers proration against the buyer’s cap.</li><li>Interests transfer; the fund itself continues unchanged. Often paired with a <strong>staple</strong> — a primary commitment to the GP’s next fund.</li></ol>
+<h3>Why each side shows up</h3>
+<table><tr><th>Party</th><th>Tender rationale</th><th>Strip sale rationale</th></tr><tr><td><strong>GP</strong></td><td>Deliver LP liquidity cheaply, without conflicts of an asset sale; support fundraising via staple; refresh the LP register</td><td>Generate DPI mid-fund without exiting; bring in capital at portfolio level while keeping control and upside</td></tr><tr><td><strong>LPs</strong></td><td>Pure optionality — a free put at a known price</td><td>Partial liquidity with continued participation; no forced choice</td></tr><tr><td><strong>Buyer</strong></td><td>Access to a curated fund at a negotiated price with GP cooperation; pipeline relationship for the GP’s future deals</td><td>Diversified exposure to a known portfolio at one negotiated price; often a path to leading the GP’s next, bigger transaction</td></tr></table>
+
+<div class="tool" id="tool-tender">
+  <span class="tag">Interactive Tool</span>
+  <h3>Tender Offer &amp; Proration Simulator</h3>
+  <p>A buyer offers to purchase LP stakes in a $500M-NAV fund at a set price, with a cap on how much it will buy. If more LPs elect to sell than the cap allows, everyone gets prorated. Play with uptake and see the mechanics.</p>
+  <div class="trow"><label for="td_p">Offer price (% of NAV)</label><input type="range" id="td_p" min="75" max="100" step="1" value="92"><output id="td_p_v"></output></div>
+  <div class="trow"><label for="td_u">LPs electing to sell (% of fund)</label><input type="range" id="td_u" min="0" max="80" step="5" value="30"><output id="td_u_v"></output></div>
+  <div class="trow"><label for="td_c">Buyer's cap ($M)</label><input type="range" id="td_c" min="25" max="250" step="25" value="100"><output id="td_c_v"></output></div>
+  <div class="tstats">
+    <div class="tstat"><span class="k">NAV tendered</span><span class="v" id="td_nav"></span></div>
+    <div class="tstat"><span class="k">Deal size (paid)</span><span class="v" id="td_sz"></span></div>
+    <div class="tstat"><span class="k">Proration factor</span><span class="v" id="td_pr"></span></div>
+    <div class="tstat"><span class="k">Sold per $100 tendered</span><span class="v" id="td_per"></span></div>
+  </div>
+  <p class="tnote">Low uptake is common — tenders routinely see single-digit to ~20% election rates, because LPs who like the fund simply hold. That optionality is the structure’s core feature: nobody is forced to do anything.</p>
+  <script>
+  (function(){
+    var $ = function(id){ return document.getElementById(id); };
+    function calc(){
+      var p=+$('td_p').value/100, u=+$('td_u').value/100, cap=+$('td_c').value, NAV=500;
+      $('td_p_v').value=(p*100).toFixed(0)+'%'; $('td_u_v').value=(u*100).toFixed(0)+'%'; $('td_c_v').value='$'+cap+'M';
+      var tendered=NAV*u;
+      var buyableNAV=Math.min(tendered, p>0?cap/p:0);
+      var paid=buyableNAV*p;
+      var pr=tendered>0?buyableNAV/tendered:1;
+      $('td_nav').textContent='$'+tendered.toFixed(0)+'M';
+      $('td_sz').textContent='$'+paid.toFixed(0)+'M';
+      $('td_pr').textContent=(pr*100).toFixed(0)+'%';
+      $('td_per').textContent='$'+(100*pr).toFixed(0);
+    }
+    ['td_p','td_u','td_c'].forEach(function(id){ $(id).addEventListener('input',calc); });
+    calc();
+  })();
+  </script>
+</div>
+<h3>Market context &amp; reported examples</h3>
+<ul><li><strong>Venture is tender country:</strong> VC funds rarely fit CVs (concentration limits, board dynamics), so liquidity-seeking VC platforms have leaned on tenders — with mixed success, as several large reported attempts (including by high-profile crossover and venture firms) stumbled on the NAV credibility gap.</li><li><strong>Strip sales as DPI machines:</strong> reported examples include large venture and growth managers selling ~$1B-scale strips of portfolio positions to secondary consortia — partial liquidity that keeps the GP’s story (and upside) intact.</li><li><strong>Staples under scrutiny:</strong> as fundraising stays hard, staple ratios have crept into more processes; disclosure to tendering LPs is the governance frontier.</li></ul>
+<h3>Interview questions — basic to advanced</h3>
+<details><summary><span class="lvl b">BASIC</span>What's the difference between a tender offer and a continuation vehicle?</summary><div class="a"><p>In a tender, LP interests change hands but the fund itself is untouched — no asset moves, no new vehicle, the GP just facilitates a buyer offering liquidity to any LP who wants it. In a CV, assets are sold out of the old fund into a new one with reset terms. Tenders are lighter-touch: no asset-level pricing fight, usually no fairness opinion, and full optionality for every LP.</p></div></details>
+<details><summary><span class="lvl b">BASIC</span>What is a strip sale?</summary><div class="a"><p>The fund sells a proportional slice — say 20% of every asset (or of a defined subset) — into a new vehicle backed by secondary capital. LPs get partial liquidity while keeping most of their upside, and because the strip is pro-rata, there’s no cherry-picking fight over which assets go.</p></div></details>
+<details><summary><span class="lvl i">INTERMEDIATE</span>Why would a GP choose a tender over a CV?</summary><div class="a"><p>When the goal is LP liquidity rather than asset duration: the GP doesn’t need more time or capital for any specific company, but its LP base wants an exit ramp — common for older funds, or GPs mid-fundraise wanting to show responsiveness. Tenders are faster, cheaper, and conflict-light because the GP isn’t on both sides of an asset sale. The trade: no fresh capital enters the assets, and the GP’s economics aren’t reset.</p></div></details>
+<details><summary><span class="lvl i">INTERMEDIATE</span>What is a staple, and how does a buyer actually price it?</summary><div class="a"><p>A stapled tender pairs the secondary purchase with a commitment to the GP’s new flagship fund (e.g., “for every $3 of secondary, $1 of primary”). The buyer prices the package: if the primary commitment is worth less to them than par — blind pool, fees, J-curve — they recover it by bidding lower on the secondary leg. Sellers effectively subsidize the GP’s fundraise, which is why ILPA pushes for disclosure of staple terms to the LPs being tendered.</p></div></details>
+<details><summary><span class="lvl a">ADVANCED</span>Why have VC tender offers repeatedly struggled while buyout tenders clear?</summary><div class="a"><p>The NAV credibility gap. Venture marks embed illiquid, model-based valuations of businesses whose outcomes are power-law distributed — buyers demand 25–40% discounts to underwrite that uncertainty, while VC LPs anchor on carrying value and often prefer to wait for the next markup. Bid-ask stays wide, uptake disappoints. Several high-profile venture tender attempts in recent years cleared only partially or repriced downward for exactly this reason.</p></div></details>
+<details><summary><span class="lvl a">ADVANCED</span>In a strip sale, where do the conflicts hide if the strip is pro-rata?</summary><div class="a"><p>Three places: (1) <em>pricing</em> — a single blended price across a strip of assets can overweight the strong names to justify the total; (2) <em>scope</em> — “pro-rata” across a chosen subset is still a choice: excluding the two best assets makes it a curated portfolio wearing pro-rata clothes; (3) <em>economics</em> — the new vehicle’s fees/carry accrue to the same GP, so the sale terms set their own future compensation. Buyers respond by pricing asset-by-asset internally even when quoting a single number.</p></div></details>
+
+<div class="pagefoot"><button id="markDone" class="done-btn" type="button"></button></div>
+</main>
+<script src="atlas.js"></script>
+<script>Atlas.initPage("tender-strips");</script>
+</body>
+</html>

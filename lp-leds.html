@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LP-Led Secondaries · Secondaries Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="atlas.css">
+</head>
+<body class="v2 acc-d">
+<div id="sidenav"></div>
+<main>
+<div class="sec-head"><span class="rn">TRANSACTION TYPES</span><h2>LP-Led Secondaries</h2></div>
+<p class="lede">The original secondary market: LPs selling fund stakes for liquidity, portfolio management, or strategy shifts. Slower-growing than GP-leds but the bedrock of the asset class — and where portfolio-underwriting skill matters most.</p>
+<div class="chips"><div class="chip"><b>$56B</b><span>H1 2026 volume</span></div><div class="chip"><b>+4%</b><span>YoY growth</span></div><div class="chip"><b>~46%</b><span>Share of market</span></div><div class="chip"><b>92–94%</b><span>Buyout pricing / NAV</span></div><div class="chip"><b>~78%</b><span>Venture pricing</span></div><div class="chip"><b>~73%</b><span>Tail-end pricing</span></div></div>
+<h3>Why each side shows up</h3>
+<table><tr><th>Party</th><th>Rationale</th><th>What they worry about</th></tr><tr><td><strong>Selling LP</strong></td><td>Liquidity (denominator effect, cash needs, endowment tax pressure — endowments and foundations recently ran ~16% of LP volume); strategy consolidation; cleaning up tail-end positions and admin burden</td><td>Selling winners at a discount; signaling; GP relationship damage</td></tr><tr><td><strong>Buyer</strong></td><td>Known assets instead of blind pool; J-curve mitigation; diversification at scale; discount capture as the appetizer, NAV growth as the meal</td><td>Stale marks; unfunded on weak GPs; adverse selection in what’s offered; sub-line distortions</td></tr><tr><td><strong>GP (consent-giver)</strong></td><td>Curating a stronger LP base; relationship-building with secondary firms who may lead their future GP-led</td><td>Disruption, information leakage, ROFR administration</td></tr></table>
+<h3>Process anatomy</h3>
+<ol><li><strong>Preparation:</strong> seller (often via advisor) assembles the portfolio data pack; decides full-auction vs. targeted process.</li><li><strong>First round:</strong> buyers bid % of NAV at the reference date, by fund or for the whole portfolio.</li><li><strong>Exclusivity &amp; confirmatory diligence:</strong> winner locks price, papers the purchase-and-sale agreement.</li><li><strong>Transfers:</strong> GP consents, ROFRs cleared, interim cash flows trued up, closings often roll fund-by-fund.</li></ol>
+<div class="tool" id="tool-pricer">
+  <span class="tag">Interactive Tool</span>
+  <h3>LP-Interest Pricer</h3>
+  <p>You're buying a $100M-NAV fund stake. Set the price, growth, and unfunded exposure — see the day-one uplift and what actually drives your return. Note how quickly asset growth matters more than the discount.</p>
+  <div class="trow"><label for="sp_p">Purchase price (% of NAV)</label><input type="range" id="sp_p" min="70" max="100" step="1" value="92"><output id="sp_p_v"></output></div>
+  <div class="trow"><label for="sp_g">Portfolio value growth (%/yr)</label><input type="range" id="sp_g" min="0" max="20" step="1" value="10"><output id="sp_g_v"></output></div>
+  <div class="trow"><label for="sp_t">Realization horizon (years)</label><input type="range" id="sp_t" min="3" max="7" step="1" value="4"><output id="sp_t_v"></output></div>
+  <div class="trow"><label for="sp_u">Unfunded commitment ($M)</label><input type="range" id="sp_u" min="0" max="50" step="5" value="20"><output id="sp_u_v"></output></div>
+  <div class="tstats">
+    <div class="tstat"><span class="k">Day-one uplift</span><span class="v" id="sp_up"></span></div>
+    <div class="tstat"><span class="k">Total invested</span><span class="v" id="sp_inv"></span></div>
+    <div class="tstat"><span class="k">Gross MOIC</span><span class="v" id="sp_moic"></span></div>
+    <div class="tstat"><span class="k">Gross IRR</span><span class="v" id="sp_irr"></span></div>
+  </div>
+  <p class="tnote">Simplified: unfunded is called at close and compounds at the same rate; distributions arrive as a bullet at exit. Real underwriting models company-level cash-flow pacing — but the intuition holds: the discount is the appetizer, NAV growth is the meal.</p>
+  <script>
+  (function(){
+    var $ = function(id){ return document.getElementById(id); };
+    function calc(){
+      var p = +$('sp_p').value/100, g = +$('sp_g').value/100, T = +$('sp_t').value, U = +$('sp_u').value;
+      $('sp_p_v').value = (p*100).toFixed(0) + '%'; $('sp_g_v').value = (g*100).toFixed(0) + '%';
+      $('sp_t_v').value = T + ' yrs'; $('sp_u_v').value = '$' + U + 'M';
+      var inv = 100*p + U;
+      var val = (100 + U) * Math.pow(1+g, T);
+      var moic = val/inv, irr = Math.pow(moic, 1/T) - 1;
+      $('sp_up').textContent = '+' + ((1/p - 1)*100).toFixed(1) + '%';
+      $('sp_inv').textContent = '$' + inv.toFixed(0) + 'M';
+      $('sp_moic').textContent = moic.toFixed(2) + 'x';
+      $('sp_irr').textContent = (irr*100).toFixed(1) + '%';
+    }
+    ['sp_p','sp_g','sp_t','sp_u'].forEach(function(id){ $(id).addEventListener('input', calc); });
+    calc();
+  })();
+  </script>
+</div>
+
+<h3>How secondary buyers underwrite an LP portfolio</h3>
+  <ul>
+    <li><strong>Bottom-up:</strong> re-underwrite each portfolio company — entry marks vs. realistic exit values, leverage, growth durability.</li>
+    <li><strong>Top-down:</strong> GP quality and track record, alignment, distribution pacing, unfunded exposure.</li>
+    <li><strong>Return math:</strong> secondaries funds typically target mid-to-high teens net IRR / ~1.6–1.9x net with lower loss rates than buyout — the pitch to LPs is <em>equity-like returns with credit-like loss rates and a shorter J-curve</em>.</li>
+  </ul>
+
+  <h3>Why the market keeps growing (the structural argument)</h3>
+  <ul>
+    <li>Private markets AUM has compounded for two decades, but exit channels (IPO, M&amp;A) haven't kept pace → a widening liquidity gap.</li>
+    <li>The denominator effect and LP overallocation cycles create recurring selling pressure.</li>
+    <li>GPs discovered the CV as a legitimate fourth exit path — and holding trophy assets longer is often genuinely value-maximizing.</li>
+    <li>Capital formation lags deal supply → the market stays <em>buyer-favorable</em>, unusual in private markets.</li>
+  </ul>
+</section>
+<h3>Recent activity worth knowing</h3>
+<ul><li><strong>Elite endowments became sellers:</strong> Yale’s reported multi-billion-dollar portfolio sale process and Harvard’s reported ~$1B sale (Lexington-led) marked a regime shift in 2025 — when the most sophisticated LPs use the secondary market for portfolio management, the stigma of selling is officially dead. Tax pressure on endowments accelerated it.</li><li><strong>Pensions and sovereigns rebalancing:</strong> steady mega-portfolio supply as allocators manage overexposure from the 2020–21 commitment boom.</li><li><strong>40-Act and evergreen buyers:</strong> retail-accessible vehicles have become a persistent bid for diversified LP portfolios, changing who competes on large deals.</li></ul>
+<h3>Interview questions — basic to advanced</h3>
+<details><summary><span class="lvl b">BASIC</span>What is an LP-led secondary?</summary><div class="a"><p>An existing LP sells its interest in a fund — the funded NAV plus the obligation to meet remaining unfunded commitments — to a secondary buyer, who steps into the LP’s seat. Priced as a percentage of NAV at a reference date. The GP isn’t the counterparty but must typically consent to the transfer.</p></div></details>
+<details><summary><span class="lvl b">BASIC</span>Why do LPs sell at a discount — isn't that value-destructive?</summary><div class="a"><p>Sometimes the discount is the price of liquidity they genuinely need (overallocation, cash needs, strategy shifts). Sometimes NAV itself is stale, so a “discount” is closer to fair value than it looks. And portfolio management has value: freeing capital from a 12-year-old tail fund to redeploy can beat holding to the bitter end. The discount is a fee for immediacy, not automatically a loss.</p></div></details>
+<details><summary><span class="lvl i">INTERMEDIATE</span>Walk me through the mechanics of pricing at a reference date.</summary><div class="a"><p>Bids are struck as % of NAV as of a reference date (say, 12/31). Between reference date and close, the fund keeps operating: capital calls the buyer funds get added to the price, distributions to the seller get netted against it. So the economics transfer as of the reference date even though closing happens months later — the buyer effectively owns the interim period.</p></div></details>
+<details><summary><span class="lvl i">INTERMEDIATE</span>How do unfunded commitments affect what a buyer will pay?</summary><div class="a"><p>The buyer inherits the obligation to fund them, so large unfunded on a young fund is really a hybrid: part secondary, part blind-pool primary. Buyers underwrite the GP’s likely deployment quality and discount accordingly; some deals price funded NAV and unfunded separately. A tail-end fund with minimal unfunded prices on asset value alone, which is why vintage drives structure.</p></div></details>
+<details><summary><span class="lvl i">INTERMEDIATE</span>What are transfer restrictions and ROFRs, and why do they matter?</summary><div class="a"><p>The LPA typically requires GP consent to transfer and sometimes gives existing LPs or the GP a right of first refusal. Practically, this means the GP quietly curates its LP base — buyers invest in GP relationships partly to be the name that gets consented quickly. ROFR risk also chills auctions: nobody wants to do full diligence just to get topped by an insider matching their price.</p></div></details>
+<details><summary><span class="lvl a">ADVANCED</span>How do you underwrite a 40-line diversified LP portfolio in three weeks?</summary><div class="a"><p>Triage, not uniform depth: the top 10–15 positions usually drive 70%+ of value — model those bottom-up to exit. The mid-tail gets a calibrated top-down treatment (GP quality, sector marks vs. public comps, distribution pacing). The true tail gets a haircut assumption. Then portfolio-level analysis: vintage and sector concentration, unfunded pacing, and a distribution model that drives the IRR far more than any single asset. The skill is knowing where precision pays and where it doesn't.</p></div></details>
+<details><summary><span class="lvl a">ADVANCED</span>A seller's portfolio is 60% one mega-fund you know well and 40% funds you've never seen. How does that change your bid?</summary><div class="a"><p>Mosaic advantage on the 60% — if you hold that fund elsewhere, you have differentiated marks and can bid tighter than competitors. The 40% unknown gets wider discounts plus diligence-cost consideration. Net effect: your bid is barbelled, and you might propose a structured solution — buy the known piece outright, price the rest with a deferral or earn-out — which often wins against a flat bid from a buyer treating everything equally.</p></div></details>
+<details><summary><span class="lvl a">ADVANCED</span>How does the prevalence of subscription lines complicate LP-led underwriting?</summary><div class="a"><p>Sub lines mean fund-level cash flows are managed: called capital lags deployment and NAV includes assets funded by the facility. The buyer must model the facility's repayment (a near-term call on capital), adjust for the IRR flattering it created, and understand that headline “unfunded” may understate true near-term funding needs. Stapling on a NAV facility adds another layer of structural leverage senior to the LP interest being bought.</p></div></details>
+
+<div class="pagefoot"><button id="markDone" class="done-btn" type="button"></button></div>
+</main>
+<script src="atlas.js"></script>
+<script>Atlas.initPage("lp-leds");</script>
+</body>
+</html>

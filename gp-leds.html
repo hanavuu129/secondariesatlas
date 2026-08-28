@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GP-Led Secondaries · Secondaries Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="atlas.css">
+</head>
+<body class="v2 acc-c">
+<div id="sidenav"></div>
+<main>
+<div class="sec-head"><span class="rn">TRANSACTION TYPES</span><h2>GP-Led Secondaries</h2></div>
+<p class="lede">GP-leds are transactions the sponsor initiates on its own assets — continuation vehicles above all. In H1 2026 they overtook LP-leds for the first time, making this the center of gravity of the entire secondary market.</p>
+<div class="chips"><div class="chip"><b>$65B</b><span>H1 2026 volume</span></div><div class="chip"><b>+35%</b><span>YoY growth</span></div><div class="chip"><b>$34B</b><span>Single-asset CVs</span></div><div class="chip"><b>~54%</b><span>Share of market</span></div><div class="chip"><b>~97%</b><span>Avg pricing vs NAV</span></div><div class="chip"><b>~25%</b><span>Deals w/ deferrals</span></div></div>
+<h3>Why each side shows up</h3>
+<table><tr><th>Party</th><th>Rationale</th><th>What they worry about</th></tr><tr><td><strong>GP (initiator)</strong></td><td>Hold the trophy asset longer with fresh capital and reset economics; manufacture DPI for LPs without selling into a weak M&amp;A market; deepen relationships with secondary capital</td><td>Optics of the conflict; LP pushback; a failed process signals weakness on the asset</td></tr><tr><td><strong>Selling LPs</strong></td><td>Liquidity at or near NAV on a mature position; portfolio rebalancing without discounting a whole fund stake</td><td>Selling the winner too early; short election windows; information disadvantage vs. the GP</td></tr><tr><td><strong>Rolling LPs</strong></td><td>Keep exposure to a proven asset with a manager they trust — often on better fee terms than the original fund</td><td>Whether the reset carry over-rewards the GP; concentration</td></tr><tr><td><strong>Secondary buyer</strong></td><td>A de-risked, known asset with an incumbent manager, priced through a process they can underwrite like a direct deal — plus structural alignment via rolled carry</td><td>Paying NAV for a mark the GP controls; adverse selection; exit-path crowding as CV volume scales</td></tr></table>
+<h3>LP-led vs. GP-led — orientation</h3>
+  <div class="two-col">
+    <div>
+      <h4>LP-led (traditional)</h4>
+      <ul>
+        <li>An LP sells its existing fund interests (stakes + unfunded commitments) to a secondary buyer.</li>
+        <li>Motivations: liquidity needs, denominator effect, portfolio rebalancing, regulatory pressure.</li>
+        <li>Priced as a <strong>% of NAV</strong> at a reference date, adjusted for interim cash flows. Buyout funds often trade in the 90s%; venture meaningfully lower.</li>
+        <li>Buyer wins from: discount capture, J-curve mitigation, diversification, and buying blind-pool risk that has become known assets.</li>
+      </ul>
+    </div>
+    <div>
+      <h4>GP-led (the growth engine)</h4>
+      <ul>
+        <li>The <strong>GP initiates</strong> a transaction on its own assets — most commonly a <strong>continuation vehicle (CV)</strong>.</li>
+        <li>Single-asset CV: the trophy asset the GP isn't ready to sell. Multi-asset CV: a strip or full remaining portfolio.</li>
+        <li>Also: tender offers (buyer offers to purchase LP stakes at a set price), strip sales, NAV-based facilities, fund restructurings.</li>
+        <li>Now roughly half the market by volume, up from a fraction a decade ago.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Continuation vehicle anatomy</h3>
+  <ol>
+    <li><strong>Setup:</strong> GP forms a new vehicle (the CV) to acquire asset(s) from its existing fund. Existing LPs choose to <strong>sell</strong> (take liquidity), <strong>roll</strong> (into the CV), or occasionally a "status quo" option.</li>
+    <li><strong>Pricing:</strong> a lead secondary buyer (or club) sets price through a competitive process run by an advisor; a <strong>fairness opinion</strong> is often obtained. ILPA guidance pushes for competitive processes, transparent conflict handling, and adequate LP decision windows.</li>
+    <li><strong>Alignment:</strong> the GP typically rolls 100% of its crystallized carry (or more) into the CV, plus new GP commitment. Buyers scrutinize this hard — it's the top signal.</li>
+    <li><strong>Terms negotiated:</strong> management fee on the CV (often lower than flagship), carry (frequently tiered — e.g., ratcheting up at 2.0x/2.5x MOIC), leakage between signing and closing, subscription facility use, carry escrow, LPAC composition, exclusivity, and follow-on capital for the asset.</li>
+    <li><strong>The conflict:</strong> the GP is on <em>both sides</em> — seller (as fiduciary to the old fund) and buyer (as manager of the CV). This is why process, price discovery, and LPAC approval matter so much, and why the SEC and ILPA keep publishing guidance.</li>
+  </ol>
+
+  <div class="callout">
+    <span class="tag">Interview gold — "why would a GP do a CV instead of selling?"</span>
+    <p>Because the best asset in the fund is often the one they know best and want to hold longer — but the fund is out of time or capital. A CV lets the GP deliver liquidity to LPs who want it, keep managing the asset with fresh capital and reset economics, and avoid selling a compounder into a soft M&amp;A market. Critics counter: it can also be a way to avoid a market price test and extend fee streams — which is exactly why buyers underwrite the asset like a new deal, not a rollover.</p>
+  </div>
+
+  
+<div class="tool" id="tool-cvecon">
+  <span class="tag">Interactive Tool</span>
+  <h3>CV Economics Simulator (tiered carry)</h3>
+  <p>Continuation vehicles usually carry lower fees but tiered carry — a base rate, ratcheting up above a performance hurdle. Set the deal outcome and terms; watch what the LP nets and what the GP earns.</p>
+  <div class="trow"><label for="cv_m">Gross MOIC at exit</label><input type="range" id="cv_m" min="1" max="3.5" step="0.1" value="2.2"><output id="cv_m_v"></output></div>
+  <div class="trow"><label for="cv_t">Hold period (years)</label><input type="range" id="cv_t" min="3" max="7" step="1" value="5"><output id="cv_t_v"></output></div>
+  <div class="trow"><label for="cv_f">Management fee (%/yr on invested)</label><input type="range" id="cv_f" min="0.5" max="2" step="0.25" value="1"><output id="cv_f_v"></output></div>
+  <div class="trow"><label for="cv_c1">Base carry (%, up to 2.0x gross)</label><input type="range" id="cv_c1" min="5" max="20" step="2.5" value="10"><output id="cv_c1_v"></output></div>
+  <div class="trow"><label for="cv_c2">Premium carry (%, above 2.0x gross)</label><input type="range" id="cv_c2" min="10" max="30" step="2.5" value="17.5"><output id="cv_c2_v"></output></div>
+  <div class="tstats">
+    <div class="tstat"><span class="k">Fees paid</span><span class="v" id="cv_fees"></span></div>
+    <div class="tstat"><span class="k">GP carry</span><span class="v" id="cv_gp"></span></div>
+    <div class="tstat"><span class="k">LP net MOIC</span><span class="v" id="cv_nm"></span></div>
+    <div class="tstat"><span class="k">LP net IRR</span><span class="v" id="cv_ni"></span></div>
+  </div>
+  <p class="tnote">Per $100 invested. Simplified: carry tiers apply to after-fee profit split at the 2.0x-gross boundary; preferred-return catch-up mechanics omitted for clarity. Roughly a quarter of recent CV deals included a premium carry tier — the ratchet buys the GP upside only if the deal outperforms, which is exactly the alignment story buyers want to see.</p>
+  <script>
+  (function(){
+    var $ = function(id){ return document.getElementById(id); };
+    function calc(){
+      var m=+$('cv_m').value, T=+$('cv_t').value, f=+$('cv_f').value/100, c1=+$('cv_c1').value/100, c2=+$('cv_c2').value/100;
+      $('cv_m_v').value=m.toFixed(1)+'x'; $('cv_t_v').value=T+' yrs'; $('cv_f_v').value=(f*100).toFixed(2)+'%';
+      $('cv_c1_v').value=(c1*100).toFixed(1)+'%'; $('cv_c2_v').value=(c2*100).toFixed(1)+'%';
+      var inv=100, fees=inv*f*T, afterFee=inv*m-fees;
+      var profit=Math.max(afterFee-inv,0);
+      var tier1Cap=inv*(2.0-1);
+      var p1=Math.min(profit,tier1Cap), p2=Math.max(profit-tier1Cap,0);
+      var GP=p1*c1+p2*c2, net=afterFee-GP, nm=net/inv;
+      $('cv_fees').textContent='$'+fees.toFixed(1);
+      $('cv_gp').textContent='$'+GP.toFixed(1);
+      $('cv_nm').textContent=nm.toFixed(2)+'x';
+      $('cv_ni').textContent=((Math.pow(Math.max(nm,0.0001),1/T)-1)*100).toFixed(1)+'%';
+    }
+    ['cv_m','cv_t','cv_f','cv_c1','cv_c2'].forEach(function(id){ $(id).addEventListener('input',calc); });
+    calc();
+  })();
+  </script>
+</div>
+<h3>Recent transactions and why they matter</h3>
+<table><tr><th>Deal</th><th class="num">Size</th><th>The rationale to remember</th></tr><tr><td>Vista / Cloud Software Group SACV</td><td class="num">$5.6B</td><td>Largest single-asset CV on record, with a rare disclosed price (~5% discount to NAV) — proof mega-assets can transact through the CV channel</td></tr><tr><td>New Mountain / Real Chemistry</td><td class="num">$3.1B</td><td>Trophy-asset logic in healthcare services: high-conviction compounder, more runway than fund life</td></tr><tr><td>Cerberus / SubCom</td><td class="num">$2.3B</td><td>Strategic-infrastructure framing (subsea cables); the CV as a way to keep a long-duration asset through a multi-year buildout</td></tr><tr><td>Montagu / Wireless Logic</td><td class="num">€2B</td><td>Part of the ~93% YoY surge in European CV volume — the structure has fully globalized</td></tr><tr><td>Ares / Convergint SACV</td><td class="num">$850M</td><td>Sole-led by a dedicated third-party SACV pool (Leonard Green’s Sage) — a new buyer archetype: funds built specifically to lead other sponsors’ single-asset deals</td></tr><tr><td>Carlyle Global Credit / Content Partners</td><td class="num">n.d.</td><td>A <em>credit</em> single-asset CV on a film/TV royalty business — evidence the structure now travels across asset classes</td></tr></table>
+<p class="tbl-note">Sizes as publicly reported; approximate. Use as pattern evidence, not claimed expertise.</p>
+<h3>Interview questions — basic to advanced</h3>
+<details><summary><span class="lvl b">BASIC</span>What is a continuation vehicle, in one minute?</summary><div class="a"><p>A new fund the GP raises to buy one or more assets from its own existing fund. Existing LPs choose to sell (take cash) or roll into the new vehicle; a secondary buyer leads the pricing and anchors the new capital. The GP keeps managing the asset with a reset term, fresh follow-on capital, and renegotiated economics. It exists because the best asset in a fund is often the one the GP least wants to sell when the fund clock runs out.</p></div></details>
+<details><summary><span class="lvl b">BASIC</span>Why would a GP do a CV instead of just selling the company?</summary><div class="a"><p>Because a sale surrenders an asset they know intimately, often into a soft M&amp;A market, while LPs still need liquidity today. The CV threads the needle: sellers get cash, the GP keeps the compounder, and the buyer gets a de-risked asset with an incumbent manager. The honest counterpoint — which interviewers want you to raise — is that CVs can also dodge a true market price test and extend fee streams, which is why process quality matters.</p></div></details>
+<details><summary><span class="lvl i">INTERMEDIATE</span>What are the top alignment signals you'd check in a GP-led deal?</summary><div class="a"><p>(1) GP rolling 100% of crystallized carry into the CV — the cleanest signal — plus fresh GP commitment on top. (2) Carry structure: tiered/ratcheted carry means the GP gets paid mostly for outperformance. (3) Management fee on invested (not committed) capital at a reduced rate. (4) Whether the GP took any chips off the table. A GP cashing out carry while asking buyers to re-underwrite the asset is the red flag.</p></div></details>
+<details><summary><span class="lvl i">INTERMEDIATE</span>Walk me through how a single-asset CV gets priced.</summary><div class="a"><p>The advisor runs a competitive process: buyers underwrite the company like a direct deal — model to exit, apply their return threshold — and bid a price usually expressed vs. the fund's carrying NAV at a reference date. The lead buyer sets terms; a syndicate may fill out the book. The LPAC reviews the conflict, ILPA guidance pushes for genuine price discovery and adequate election windows, and a fairness opinion is sometimes obtained — though these appeared in only ~11% of volume recently, meaning buyers increasingly rely on their own underwriting.</p></div></details>
+<details><summary><span class="lvl i">INTERMEDIATE</span>What is leakage and why does it matter in CV negotiations?</summary><div class="a"><p>Value leaving the asset between the pricing reference date and closing — dividends, fees, or expenses paid out to the seller side. In locked-box style pricing, the buyer pays for the asset as of the reference date, so any leakage after that date is value the buyer paid for but didn't receive. Negotiating leakage protections (and interest on the locked box) is standard deal mechanics.</p></div></details>
+<details><summary><span class="lvl a">ADVANCED</span>How do purchase-price deferrals bridge bid-ask gaps, and what's the real cost?</summary><div class="a"><p>The buyer pays, say, 90% at close and 10% in 12–24 months — the headline price looks full, but the deferred piece is effectively an interest-free loan from the seller, so the buyer's true economic price is lower and their IRR mechanically improves from delayed outflow. Deferrals appeared in roughly a quarter of recent continuation funds. For the seller, it converts price risk into counterparty/timing risk — which is why sellers scrutinize the buyer's funding and the conditions attached to the deferred payment.</p></div></details>
+<details><summary><span class="lvl a">ADVANCED</span>You're underwriting a single-asset CV on a business the GP has owned for six years. What's different vs. a fresh buyout?</summary><div class="a"><p>The information asymmetry inverts: the GP knows everything, you know the data room. So the diligence emphasis shifts to (1) why the upside remains — if the plan was so good, why wasn't it executed in the first hold; (2) entry basis vs. NAV — you're paying near carrying value, so the mark's credibility is the deal; (3) the GP's incentive shift with reset economics — a new carry ratchet on an already-marked-up basis; (4) exit path realism — who buys this in five years at a bigger number, given the sponsor universe has already passed on it once at this price.</p></div></details>
+<details><summary><span class="lvl a">ADVANCED</span>Why has the fairness-opinion share of GP-led volume fallen, and is that good or bad?</summary><div class="a"><p>It dropped to roughly 11% of volume — buyers and LPACs increasingly treat a competitive process with multiple bids as better price discovery than a paid opinion. Arguably healthy: it reflects a deeper, more institutional buyer universe doing fundamental underwriting. The risk case: in thin processes with one anchor buyer, removing the third-party check leaves LP protection resting entirely on LPAC sophistication — which varies widely.</p></div></details>
+
+<div class="pagefoot"><button id="markDone" class="done-btn" type="button"></button></div>
+</main>
+<script src="atlas.js"></script>
+<script>Atlas.initPage("gp-leds");</script>
+</body>
+</html>
