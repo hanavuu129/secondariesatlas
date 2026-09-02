@@ -80,3 +80,39 @@ window.Atlas = {
     var el = document.getElementById('drillBest'); if(el && s !== null) el.textContent = 'Best full-drill score: ' + s + '%';
   }
 };
+
+Atlas.sectionQuiz = function(mountId, QS, storeKey){
+  var mount = document.getElementById(mountId); if(!mount) return;
+  var pool = [], idx = 0, score = 0;
+  function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+  function best(){ try{ return localStorage.getItem('atlas_quiz_'+storeKey); }catch(e){ return null; } }
+  function saveBest(p){ try{ var b=+(best()||0); if(p>b) localStorage.setItem('atlas_quiz_'+storeKey, String(p)); }catch(e){} }
+  function start(){ pool = shuffle(QS.slice()); idx = 0; score = 0; render(); }
+  function render(){
+    if(idx >= pool.length){
+      var pct = pool.length ? Math.round(100*score/pool.length) : 0;
+      saveBest(pct);
+      var msg = pct>=85 ? 'Interview-ready on this section.' : pct>=60 ? 'Solid - reread the explanations you missed and rerun.' : 'Worth another pass through the section above first.';
+      mount.innerHTML = '<div class="qz-card"><div class="qz-done"><div class="qz-prog">QUIZ COMPLETE</div><div class="big">'+score+' / '+pool.length+'</div><p>'+msg+'</p><p class="qz-best">Best score: '+(best()||pct)+'%</p><button class="qz-next show" id="qzr_'+mountId+'">RETAKE QUIZ</button></div></div>';
+      document.getElementById('qzr_'+mountId).onclick = start;
+      return;
+    }
+    var q = pool[idx];
+    var order = shuffle(q.o.map(function(_,i){ return i; }));
+    var html = '<div class="qz-card"><div class="qz-prog">QUESTION '+(idx+1)+' OF '+pool.length+' | SCORE '+score+'</div><div class="qz-q">'+q.q+'</div>';
+    order.forEach(function(oi){ html += '<button class="qz-opt" data-i="'+oi+'">'+q.o[oi]+'</button>'; });
+    html += '<div class="qz-exp" id="qze_'+mountId+'"></div><button class="qz-next" id="qzn_'+mountId+'">NEXT</button></div>';
+    mount.innerHTML = html;
+    mount.querySelectorAll('.qz-opt').forEach(function(btn){
+      btn.onclick = function(){
+        var pick = +btn.getAttribute('data-i');
+        mount.querySelectorAll('.qz-opt').forEach(function(b){ b.disabled = true; if(+b.getAttribute('data-i') === q.a) b.classList.add('right'); });
+        if(pick === q.a) score++; else btn.classList.add('wrong');
+        idx++;
+        var exp = document.getElementById('qze_'+mountId); exp.textContent = q.e; exp.classList.add('show');
+        var nx = document.getElementById('qzn_'+mountId); nx.classList.add('show'); nx.onclick = render;
+      };
+    });
+  }
+  start();
+};
