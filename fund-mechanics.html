@@ -115,6 +115,38 @@ IRR   = discount rate where NPV of cash flows = 0   (time-weighted)</div>
   })();
   </script>
 </div>
+<h3>Worked math: catch-up variants and hard hurdles</h3>
+<p>Fund distributes $200 on $100 contributed (after fees); pref is $8 (simple, for arithmetic). Profit = $100.</p>
+<ul><li><strong>100% catch-up, 20% carry:</strong> LP gets $8 pref; GP catch-up $2 (so GP holds 20% of the $10 distributed so far); remaining $90 splits 80/20. GP total = $20 — exactly 20% of profit.</li><li><strong>50% catch-up:</strong> the catch-up tranche splits 50/50 until the GP reaches 20% of profit-to-date — solve 0.5t = 0.2(8+t) → t ≈ $5.33, GP ≈ $2.67 in catch-up. With ample profit the GP still reaches $20 total — <em>the slower catch-up only changes outcomes when profits run out mid-catch-up.</em> That’s the trap: 50% catch-up protects LPs in moderate scenarios, not great ones.</li><li><strong>Hard hurdle (no catch-up):</strong> carry applies only to profit above the pref: 20% × $92 = $18.40 vs. $20 — the GP permanently loses carry on the pref tranche. Same “8% hurdle” headline, structurally different economics.</li></ul>
+<p><strong>Sub-line IRR mechanics, numerically:</strong> a fund that delays capital calls 12 months via its subscription line starts the LP’s IRR clock a year late. A deal returning 2.0x over 5 years from deployment shows ~14.9% IRR unlevered at the LP level — but if the LP’s cash was outstanding only 4 years, the same 2.0x prints ~18.9%. MOIC identical; IRR flattered ~400bps. This is why sophisticated LPs ask for returns with and without the facility — and why IRR comparisons across funds with different facility usage are quietly apples-to-oranges.</p>
+
+<h3>Section quiz — 20 questions (hard mode)</h3>
+<div id="quiz"></div>
+<script>
+var FMQ = [
+{q:"$200 distributed on $100 (after fees), $8 pref, 100% catch-up, 20% carry. Total GP carry =", o:["$18.40","$20","$22","$8"], a:1, e:"Pref $8 → catch-up $2 → 20% of remaining $90 = $18. Total $20 = exactly 20% of the $100 profit."},
+{q:"Same fund with a 50% catch-up and ample profit — the GP's total carry…", o:["Falls to $10","Still reaches $20; the catch-up is just slower","Doubles","Becomes zero"], a:1, e:"Catch-up speed only matters when profit runs out mid-catch-up — the classic trap question."},
+{q:"Same numbers with a HARD 8% hurdle (no catch-up):", o:["$20","$18.40","$16","$8"], a:1, e:"Carry applies only above the pref: 20% × $92 = $18.40. The GP permanently loses carry on the pref tranche."},
+{q:"Two deals of $100 each: A returns $300 in yr 3, B returns $50 in yr 6. Under deal-by-deal carry (20%, ignore pref), the clawback owed is…", o:["$0","$10M","$30M","$40M"], a:1, e:"GP took $40 on A; whole-fund carry should be 20% × $150 = $30 — $10 comes back, typically net of taxes paid."},
+{q:"'Net of tax' clawback language means LPs…", o:["Recover 100 cents","Recover the excess minus taxes the GP partners already paid — rarely 100 cents","Recover nothing","Pay the GP's taxes"], a:1, e:"Why LPs also demand escrows (often 20–30% of carry) and interim clawback tests."},
+{q:"A subscription line delaying calls 12 months on a 2.0x deal (5-yr deployment hold) moves LP IRR roughly…", o:["Not at all","From ~15% to ~19% — ~400bps, MOIC unchanged","Down 400bps","MOIC rises too"], a:1, e:"2.0x over 4 years of LP cash outstanding vs. 5: (2)^(1/4)=18.9% vs (2)^(1/5)=14.9%."},
+{q:"A NAV facility differs from a sub line in that it borrows against…", o:["Uncalled LP commitments","Portfolio value — and sits senior to LP equity in the fund's stack","GP carry","Nothing"], a:1, e:"Sub lines bridge capital calls (security: commitments); NAV loans lever the portfolio itself — hence the ILPA scrutiny."},
+{q:"Recycling provisions typically cap reinvestment at…", o:["50% of commitments","100–120% of commitments","200%","No cap"], a:1, e:"Early proceeds can be reinvested up to the cap — extending deployment, deferring DPI."},
+{q:"Management fees typically step down after the investment period to…", o:["Zero","A reduced rate on invested capital / net asset basis rather than committed","Double","LP discretion"], a:1, e:"Basis and rate both shift — and LPs watch for double-dip windows when a successor fund starts charging."},
+{q:"Portfolio-company fee offsets today are typically…", o:["0%","50%","80%","100% against management fees"], a:3, e:"Monitoring/transaction/director fees now standardly offset management fees fully — legacy funds vary."},
+{q:"The preferred return typically accrues on…", o:["Committed capital","Contributed capital including amounts drawn for fees","Only deal capital","NAV"], a:1, e:"Pref runs on what LPs actually paid in — including fee draws — which is why fee timing affects the hurdle."},
+{q:"In a European waterfall, the GP sees first carry only after…", o:["Each deal exits","LPs receive ALL contributed capital plus pref back at the fund level","Year 5","The LPAC approves"], a:1, e:"Whole-fund netting — slower GP payout, structurally no clawback in most scenarios."},
+{q:"A key-person event typically triggers…", o:["Fund dissolution","Automatic suspension of the investment period pending LP action","Fee increase","Nothing"], a:1, e:"New deals stop while LPs decide — the LPA's dead-man switch on the people they actually backed."},
+{q:"No-fault GP removal usually requires…", o:["Simple majority","A supermajority (often 75%+) and typically leaves the GP with reduced/accrued carry","SEC approval","Unanimous consent"], a:1, e:"For-cause has lower thresholds; no-fault is deliberately hard and priced (carry haircut, not forfeiture)."},
+{q:"CV carry crystallization means…", o:["Carry is forfeited","The asset sale to the CV is a realization event making accrued carry payable — the roll decision is the alignment test","Fees convert to carry","Nothing changes"], a:1, e:"Reset basis + crystallized carry is the economic heart of every continuation vehicle."},
+{q:"Tiered CV carry: after-fee profit $115 per $100; 10% to the first $100 of profit, 17.5% above. GP earns…", o:["$11.50","$12.63","$20.13","$10"], a:1, e:"0.10×100 + 0.175×15 = 10 + 2.63 = $12.63."},
+{q:"Typical GP commitments run…", o:["0.1%","1–5% of fund size","10–20%","50%"], a:1, e:"And on today's mega-funds that's serious partner cash — hence GP-commitment financing and fee-waiver funding (with its own alignment questions)."},
+{q:"A GP commit funded via fee waiver is scrutinized because…", o:["It's illegal","It's cashless — alignment on paper without partners' money at risk","It raises fees","LPs prefer it"], a:1, e:"Buyers and LPs increasingly ask HOW the commit is funded, not just its size."},
+{q:"An 8% pref on $100 called at close, fund returns capital in year 4: the pref hurdle compounds to roughly…", o:["$8","$36 (1.08^4 ≈ 1.36x)","$32 (simple 4×8)","$16"], a:1, e:"Pref compounds: 1.08^4 = 1.3605 → $36.05 of pref before carry — compounding vs simple is a real negotiation point."},
+{q:"Duration and the MOIC/IRR trade: a 1.5x in 2 years vs a 2.0x in 6 years — IRRs are…", o:["~22% vs ~12% — the faster deal wins on IRR, the slower on MOIC","Equal","~10% vs ~20%","MOIC decides IRR"], a:0, e:"1.5^(1/2)−1 = 22.5%; 2^(1/6)−1 = 12.2%. Fund math is the art of choosing between them — and secondaries buyers live on this trade."}
+];
+Atlas.sectionQuiz("quiz", FMQ, "fund-mechanics");
+</script>
 <div class="pagefoot"><button id="markDone" class="done-btn" type="button"></button></div>
 </main>
 <script src="atlas.js"></script>
