@@ -63,13 +63,63 @@ jobs:
                       except Exception:
                           date, ts = "", 0
                       items.append({"title": title, "link": link, "source": source,
-                                    "date": date, "_ts": ts})
+                                    "date": date, "_ts": ts,
+                                    "_desc": it.findtext("description") or ""})
               except Exception as e:
                   print("news query failed:", q, e)
           items.sort(key=lambda x: -x["_ts"])
           items = items[:25]
           for it in items:
               it.pop("_ts", None)
+
+          # ---------- summaries: og:description -> RSS snippet -> context line ----------
+          import html as _html
+
+          def strip_tags(s):
+              return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", s or "")).strip()
+
+          def og_desc(url):
+              try:
+                  page = get(url, timeout=8).decode("utf-8", "ignore")
+              except Exception:
+                  return ""
+              pats = [
+                  r'<meta[^>]+property=["\']og:description["\'][^>]*content=["\']([^"\']+)',
+                  r'<meta[^>]+content=["\']([^"\']+)["\'][^>]*property=["\']og:description',
+                  r'<meta[^>]+name=["\']description["\'][^>]*content=["\']([^"\']+)',
+              ]
+              for p in pats:
+                  m = re.search(p, page, re.I)
+                  if m:
+                      return _html.unescape(m.group(1)).strip()
+              return ""
+
+          def context_line(title):
+              tl = title.lower()
+              if "continuation" in tl or "single-asset" in tl or "sacv" in tl:
+                  return "GP-led continuation-vehicle activity \u2014 the market's dominant deal type."
+              if any(k in tl for k in ["fundrais", "closes", "close ", "raises", "raise ", "hard cap"]):
+                  return "Capital formation on the buyside \u2014 watch dry powder vs. deal supply."
+              if any(k in tl for k in ["sells", "sale", "portfolio", "divest"]):
+                  return "LP-led supply \u2014 institutions using secondaries for portfolio management."
+              if "credit" in tl:
+                  return "Credit secondaries \u2014 the market's fastest-growing vertical."
+              if any(k in tl for k in ["hires", "joins", "appoints", "promotes", "names "]):
+                  return "People move \u2014 team buildouts track where firms see deal flow."
+              if any(k in tl for k in ["report", "survey", "volume", "outlook", "record"]):
+                  return "Market data \u2014 candidate material for the stats you quote in interviews."
+              return "Secondary-market development worth logging."
+
+          for i, it in enumerate(items):
+              summ = og_desc(it["link"]) if i < 12 else ""
+              if not summ:
+                  d = strip_tags(it.get("_desc", ""))
+                  if d and len(d) > 40 and not d.lower().startswith(it["title"][:30].lower()):
+                      summ = d
+              if not summ:
+                  summ = context_line(it["title"])
+              it["summary"] = (summ[:277] + "\u2026") if len(summ) > 280 else summ
+              it.pop("_desc", None)
 
           # ---------- JOBS: Greenhouse + Lever public boards ----------
           # Tokens are best-effort guesses; 404s are skipped silently.
