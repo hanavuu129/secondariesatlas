@@ -145,7 +145,7 @@ var FMQ = [
 {q:"An 8% pref on $100 called at close, fund returns capital in year 4: the pref hurdle compounds to roughly…", o:["$8","$36 (1.08^4 ≈ 1.36x)","$32 (simple 4×8)","$16"], a:1, e:"Pref compounds: 1.08^4 = 1.3605 → $36.05 of pref before carry — compounding vs simple is a real negotiation point."},
 {q:"Duration and the MOIC/IRR trade: a 1.5x in 2 years vs a 2.0x in 6 years — IRRs are…", o:["~22% vs ~12% — the faster deal wins on IRR, the slower on MOIC","Equal","~10% vs ~20%","MOIC decides IRR"], a:0, e:"1.5^(1/2)−1 = 22.5%; 2^(1/6)−1 = 12.2%. Fund math is the art of choosing between them — and secondaries buyers live on this trade."}
 ];
-Atlas.sectionQuiz("quiz", FMQ, "fund-mechanics");
+document.addEventListener("DOMContentLoaded", function(){ Atlas.sectionQuiz("quiz", FMQ, "fund-mechanics"); });
 </script>
 <div class="pagefoot"><button id="markDone" class="done-btn" type="button"></button></div>
 </main>
