@@ -1,0 +1,137 @@
+name: Refresh news and jobs data
+
+on:
+  schedule:
+    - cron: "0 11 * * *"   # every day 11:00 UTC (~7am ET)
+  workflow_dispatch: {}     # lets you run it manually from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch news and jobs
+        run: |
+          python3 - <<'PY'
+          import json, re, ssl, urllib.request, xml.etree.ElementTree as ET
+          from datetime import datetime, timezone
+          from email.utils import parsedate_to_datetime
+
+          UA = {"User-Agent": "Mozilla/5.0 (SecondariesAtlas data refresh; personal educational site)"}
+          CTX = ssl.create_default_context()
+
+          def get(url, timeout=20):
+              req = urllib.request.Request(url, headers=UA)
+              with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+                  return r.read()
+
+          now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
+
+          # ---------- NEWS: Google News RSS ----------
+          QUERIES = [
+              '"continuation vehicle"',
+              '"private equity secondaries"',
+              '"GP-led" secondary private equity',
+              '"secondaries fund" close OR raise',
+              'LP portfolio sale private equity',
+          ]
+          items, seen = [], set()
+          for q in QUERIES:
+              url = ("https://news.google.com/rss/search?q=" + urllib.parse.quote(q)
+                     + "&hl=en-US&gl=US&ceid=US:en")
+              try:
+                  root = ET.fromstring(get(url))
+                  for it in root.iter("item"):
+                      title = (it.findtext("title") or "").strip()
+                      link = (it.findtext("link") or "").strip()
+                      pub = (it.findtext("pubDate") or "").strip()
+                      src_el = it.find("{https://news.google.com/rss}source")
+                      if src_el is None:
+                          src_el = it.find("source")
+                      source = (src_el.text or "").strip() if src_el is not None else ""
+                      key = re.sub(r"\W+", "", title.lower())[:80]
+                      if not title or key in seen:
+                          continue
+                      seen.add(key)
+                      try:
+                          dt = parsedate_to_datetime(pub)
+                          date, ts = dt.strftime("%b %d"), dt.timestamp()
+                      except Exception:
+                          date, ts = "", 0
+                      items.append({"title": title, "link": link, "source": source,
+                                    "date": date, "_ts": ts})
+              except Exception as e:
+                  print("news query failed:", q, e)
+          items.sort(key=lambda x: -x["_ts"])
+          items = items[:25]
+          for it in items:
+              it.pop("_ts", None)
+
+          # ---------- JOBS: Greenhouse + Lever public boards ----------
+          # Tokens are best-effort guesses; 404s are skipped silently.
+          # Add/remove tokens by editing these lists — the board token is the
+          # last path segment of a firm's boards.greenhouse.io / jobs.lever.co page.
+          GREENHOUSE = ["stepstonegroup", "hamiltonlane", "harbourvest",
+                        "adamsstreetpartners", "industryventures", "collercapital",
+                        "pantheon", "gsquared", "newviewcapital", "tpg",
+                        "generalatlantic", "vistaequitypartners"]
+          LEVER = ["stepstone", "industryventures", "gsquared"]
+          KEYWORDS = ["second", "co-invest", "coinvest", "continuation",
+                      "fund invest", "gp-led", "gp led", "portfolio finance",
+                      "primaries", "nav lending", "nav financ"]
+
+          def match(title):
+              t = title.lower()
+              return any(k in t for k in KEYWORDS)
+
+          jobs, sources_ok = [], []
+          for tok in GREENHOUSE:
+              try:
+                  data = json.loads(get(
+                      "https://boards-api.greenhouse.io/v1/boards/%s/jobs" % tok))
+                  sources_ok.append(tok)
+                  for j in data.get("jobs", []):
+                      if match(j.get("title", "")):
+                          jobs.append({
+                              "firm": tok, "title": j.get("title", ""),
+                              "location": (j.get("location") or {}).get("name", ""),
+                              "url": j.get("absolute_url", "")})
+              except Exception:
+                  pass
+          for tok in LEVER:
+              try:
+                  data = json.loads(get(
+                      "https://api.lever.co/v0/postings/%s?mode=json" % tok))
+                  sources_ok.append("lever:" + tok)
+                  for j in data:
+                      if match(j.get("text", "")):
+                          jobs.append({
+                              "firm": tok, "title": j.get("text", ""),
+                              "location": (j.get("categories") or {}).get("location", ""),
+                              "url": j.get("hostedUrl", "")})
+              except Exception:
+                  pass
+          jobs = jobs[:40]
+
+          import os
+          os.makedirs("data", exist_ok=True)
+          with open("data/news.json", "w") as f:
+              json.dump({"updated": now, "items": items}, f, indent=1)
+          with open("data/jobs.json", "w") as f:
+              json.dump({"updated": now, "jobs": jobs, "sources_ok": sources_ok},
+                        f, indent=1)
+          print("news:", len(items), "| jobs:", len(jobs),
+                "| feeds ok:", sources_ok)
+          PY
+
+      - name: Commit if changed
+        run: |
+          git config user.name "atlas-refresh-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "Daily data refresh"
+          git push
