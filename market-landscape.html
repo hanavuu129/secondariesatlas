@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function(){
   fetch("data/news.json",{cache:"no-store"}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(d){
     if(!d.items||!d.items.length){ fallback(); return; }
     var h='<p style="font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass)">Updated '+(d.updated||"")+' UTC · top '+d.items.length+' stories</p><ul>';
-    d.items.forEach(function(it){ h+='<li><span style="font-family:var(--mono);font-size:11px;color:#6c7166">'+(it.date||"")+' · '+(it.source||"")+'</span><br><a href="'+it.link+'" target="_blank" rel="noopener">'+it.title+'</a></li>'; });
+    d.items.forEach(function(it){ h+='<li style="margin-bottom:13px"><span style="font-family:var(--mono);font-size:11px;color:#6c7166">'+(it.date||"")+' · '+(it.source||"")+'</span><br><a href="'+it.link+'" target="_blank" rel="noopener">'+it.title+'</a>'+(it.summary?'<br><span style="font-size:13.5px;color:#4a4f47;line-height:1.5">'+it.summary+'</span>':'')+'</li>'; });
     el.innerHTML=h+"</ul>";
   }).catch(fallback);
 });

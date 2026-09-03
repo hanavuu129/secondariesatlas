@@ -93,13 +93,13 @@ Atlas.sectionQuiz = function(mountId, QS, storeKey){
       var pct = pool.length ? Math.round(100*score/pool.length) : 0;
       saveBest(pct);
       var msg = pct>=85 ? 'Interview-ready on this section.' : pct>=60 ? 'Solid - reread the explanations you missed and rerun.' : 'Worth another pass through the section above first.';
-      mount.innerHTML = '<div class="qz-card"><div class="qz-done"><div class="qz-prog">QUIZ COMPLETE</div><div class="big">'+score+' / '+pool.length+'</div><p>'+msg+'</p><p class="qz-best">Best score: '+(best()||pct)+'%</p><button class="qz-next show" id="qzr_'+mountId+'">RETAKE QUIZ</button></div></div>';
+      mount.innerHTML = '<div class="qz-card '+(pct>=85?'qz-ace':'')+'"><div class="qz-done"><div class="qz-prog">QUIZ COMPLETE</div><div class="big">'+score+' / '+pool.length+'</div><p>'+msg+'</p><p class="qz-best">Best score: '+(best()||pct)+'%</p><button class="qz-next show" id="qzr_'+mountId+'">RETAKE QUIZ</button></div></div>';
       document.getElementById('qzr_'+mountId).onclick = start;
       return;
     }
     var q = pool[idx];
     var order = shuffle(q.o.map(function(_,i){ return i; }));
-    var html = '<div class="qz-card"><div class="qz-prog">QUESTION '+(idx+1)+' OF '+pool.length+' | SCORE '+score+'</div><div class="qz-q">'+q.q+'</div>';
+    var html = '<div class="qz-card"><div class="qz-prog">QUESTION '+(idx+1)+' OF '+pool.length+' | SCORE '+score+'</div><div class="qz-bar2"><i style="width:'+Math.round(100*idx/pool.length)+'%"></i></div><div class="qz-q">'+q.q+'</div>';
     order.forEach(function(oi){ html += '<button class="qz-opt" data-i="'+oi+'">'+q.o[oi]+'</button>'; });
     html += '<div class="qz-exp" id="qze_'+mountId+'"></div><button class="qz-next" id="qzn_'+mountId+'">NEXT</button></div>';
     mount.innerHTML = html;
@@ -116,3 +116,86 @@ Atlas.sectionQuiz = function(mountId, QS, storeKey){
   }
   start();
 };
+
+Atlas.quizBest = function(id){ try{ return localStorage.getItem('atlas_quiz_'+id); }catch(e){ return null; } };
+Atlas.initFX = function(){
+  var d = document;
+  // scroll progress
+  if(!d.getElementById('scrollbar')){
+    var sb = d.createElement('div'); sb.id = 'scrollbar'; d.body.appendChild(sb);
+    var onscroll = function(){
+      var h = d.documentElement, max = h.scrollHeight - h.clientHeight;
+      sb.style.transform = 'scaleX(' + (max > 0 ? h.scrollTop / max : 0) + ')';
+    };
+    window.addEventListener('scroll', onscroll, {passive:true}); onscroll();
+  }
+  // back to top
+  if(!d.getElementById('toTop')){
+    var bt = d.createElement('button'); bt.id = 'toTop'; bt.type = 'button'; bt.innerHTML = '\u2191'; bt.title = 'Back to top';
+    bt.onclick = function(){ window.scrollTo({top:0, behavior:'smooth'}); };
+    d.body.appendChild(bt);
+    window.addEventListener('scroll', function(){ bt.classList.toggle('show', (d.documentElement.scrollTop||0) > 600); }, {passive:true});
+  }
+  // reveal-on-scroll + animated counters + chart grow
+  var targets = d.querySelectorAll('main h3, main .tool, main table, main .chips, main .tiles, main .callout, main .mod-card, main .minichart');
+  var animNum = function(el){
+    var raw = el.textContent, m = raw.match(/^([^0-9]*)([0-9][0-9,\.]*)(.*)$/);
+    if(!m) return;
+    var target = parseFloat(m[2].replace(/,/g,'')); if(!isFinite(target)) return;
+    var dec = (m[2].split('.')[1]||'').length, t0 = null, DUR = 900;
+    var step = function(ts){
+      if(!t0) t0 = ts;
+      var p = Math.min((ts-t0)/DUR, 1), eased = 1-Math.pow(1-p,3);
+      var v = (target*eased).toFixed(dec);
+      if(dec===0 && target>=1000) v = Number(v).toLocaleString('en-US');
+      el.textContent = m[1]+v+m[3];
+      if(p<1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  if('IntersectionObserver' in window){
+    var seen = new WeakSet();
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(!en.isIntersecting || seen.has(en.target)) return;
+        seen.add(en.target); en.target.classList.add('in');
+        en.target.querySelectorAll('.tile b, .chip b').forEach(animNum);
+        io.unobserve(en.target);
+      });
+    }, {threshold: 0.15});
+    targets.forEach(function(el){ el.classList.add('rv'); io.observe(el); });
+  }
+  // sidebar: search box + quiz score badges
+  var nav = d.getElementById('sidenav');
+  if(nav && !d.getElementById('navq')){
+    var q = d.createElement('input'); q.id = 'navq'; q.type = 'search'; q.placeholder = 'Search sections\u2026';
+    var brand = nav.querySelector('.brand'); if(brand) brand.after(q); else nav.prepend(q);
+    q.addEventListener('input', function(){
+      var v = q.value.trim().toLowerCase();
+      nav.querySelectorAll('a.nl').forEach(function(a){ a.classList.toggle('hid', !!v && a.textContent.toLowerCase().indexOf(v) === -1); });
+      nav.querySelectorAll('details').forEach(function(dt){ if(v) dt.open = true; });
+    });
+    nav.querySelectorAll('a.nl').forEach(function(a){
+      var href = a.getAttribute('href') || '', id = href.replace('.html','').split('#')[0];
+      var best = Atlas.quizBest(id);
+      if(best !== null && !a.querySelector('.pct')){
+        var s = d.createElement('span'); s.className = 'pct'; s.textContent = best + '%'; a.appendChild(s);
+      }
+    });
+  }
+  // news pulse ticker (index)
+  var pulse = d.getElementById('pulse');
+  if(pulse && window.fetch){
+    fetch('data/news.json', {cache:'no-store'}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(dd){
+      if(!dd.items || !dd.items.length){ pulse.style.display = 'none'; return; }
+      var mk = function(){ return dd.items.slice(0,12).map(function(it){
+        return '<a href="'+it.link+'" target="_blank" rel="noopener"><span class="src">'+(it.source||'')+'</span>'+it.title+'</a>';
+      }).join(''); };
+      pulse.innerHTML = '<span class="lbl">THE TAPE</span><div class="track">'+mk()+mk()+'</div>';
+    }).catch(function(){ pulse.style.display = 'none'; });
+  }
+};
+(function(){
+  var run = function(){ try{ Atlas.initFX(); }catch(e){} };
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+})();

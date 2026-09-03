@@ -223,3 +223,46 @@ body.v2 main{margin-left:255px;max-width:960px;padding:44px 40px 110px}
 .qz-done{text-align:center;padding:20px 0}
 .qz-done .big{font-family:var(--display);font-size:36px;color:var(--accent);font-weight:700}
 .qz-best{font-family:var(--mono);font-size:11px;color:#6c7166;letter-spacing:.1em}
+
+/* ===== v3 fx ===== */
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} .rv{opacity:1!important;transform:none!important} }
+#scrollbar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--brass));width:100%;transform-origin:0 0;transform:scaleX(0);z-index:90}
+.rv{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease}
+.rv.in{opacity:1;transform:none}
+#toTop{position:fixed;right:22px;bottom:22px;width:42px;height:42px;border:1px solid var(--accent);background:#fff;color:var(--accent);font-size:18px;cursor:pointer;opacity:0;pointer-events:none;transition:.3s;z-index:80}
+#toTop.show{opacity:1;pointer-events:auto}
+#toTop:hover{background:var(--accent);color:#fff}
+.mod-card, .tile, .chip, .tool, table{transition:transform .25s ease, box-shadow .25s ease}
+.mod-card:hover, .tile:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(14,59,46,.10)}
+tbody tr:hover td, table tr:hover td{background:#f6f6f0}
+.tool:hover{box-shadow:0 8px 24px rgba(14,59,46,.08)}
+/* accent range sliders */
+input[type=range]{-webkit-appearance:none;appearance:none;height:5px;background:#ddd9cb;outline:none;border-radius:3px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:17px;height:17px;border-radius:50%;background:var(--accent);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);cursor:pointer;transition:transform .15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.25)}
+input[type=range]::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:var(--accent);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);cursor:pointer}
+input[type=range]::-moz-range-track{height:5px;background:#ddd9cb;border-radius:3px}
+/* sidebar search + badges */
+#navq{width:calc(100% - 40px);margin:10px 20px 4px;padding:7px 10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#fff;font:12.5px var(--body);outline:none}
+#navq::placeholder{color:#9aa294}
+#navq:focus{border-color:var(--brass)}
+#sidenav a.nl .pct{font-family:var(--mono);font-size:9.5px;color:#0e3b2e;background:var(--brass);padding:1px 5px;border-radius:2px}
+#sidenav a.nl.hid{display:none}
+/* quiz upgrades */
+.qz-bar2{height:4px;background:#eceadf;margin:-6px 0 16px}
+.qz-bar2 i{display:block;height:100%;background:var(--accent);transition:width .35s ease}
+.qz-card.qz-ace{border-color:var(--brass);box-shadow:0 0 0 3px rgba(169,126,47,.25);animation:acePulse 1.2s ease 1}
+@keyframes acePulse{0%{box-shadow:0 0 0 0 rgba(169,126,47,.5)}100%{box-shadow:0 0 0 14px rgba(169,126,47,0)}}
+/* news pulse ticker */
+#pulse{overflow:hidden;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);background:#fff;margin:10px 0 26px;white-space:nowrap;position:relative}
+#pulse .lbl{position:absolute;left:0;top:0;bottom:0;display:flex;align-items:center;padding:0 12px;background:var(--ledger);color:var(--brass);font-family:var(--mono);font-size:10px;letter-spacing:.15em;z-index:2}
+#pulse .track{display:inline-block;padding:11px 0 11px 110px;animation:tickmove 60s linear infinite}
+#pulse:hover .track{animation-play-state:paused}
+#pulse a{color:var(--ink);text-decoration:none;font-size:13px;margin-right:44px}
+#pulse a:hover{color:var(--accent);text-decoration:underline}
+#pulse .src{font-family:var(--mono);font-size:10px;color:var(--brass);margin-right:7px}
+@keyframes tickmove{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@media (prefers-reduced-motion: reduce){ #pulse .track{animation:none} }
+.minichart .mbar{transform:scaleY(0);transform-origin:bottom;transition:transform .8s cubic-bezier(.2,.7,.3,1)}
+.minichart.in .mbar{transform:scaleY(1)}
