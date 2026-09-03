@@ -18,7 +18,26 @@
 
   <p class="lede">The state of the secondaries market right now: how big it is, what's driving it, who the players are, what recent deals look like, and where to keep score daily. This is the module to reread the night before any interview.</p>
 
-  <h3>The headline: H1 2026 was a structural turning point</h3>
+  <h3 id="tape">The Daily Tape — auto-refreshed</h3>
+<p>Headlines below are pulled once a day by this site’s own robot (a GitHub Action) from news feeds covering continuation vehicles, secondaries volume, and fund liquidity — no visit-time scraping, no stale copy. If the feed hasn’t been set up yet, the live-search links appear instead.</p>
+<div id="newsfeed"><p style="font-family:var(--mono);font-size:12px;color:#6c7166">Loading the tape…</p></div>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  var el=document.getElementById("newsfeed");
+  var fallback=function(){ el.innerHTML='<p>Feed not initialized yet — use the always-current searches: '+
+    '<a href="https://news.google.com/search?q=%22continuation%20vehicle%22" target="_blank" rel="noopener">continuation vehicles</a> · '+
+    '<a href="https://news.google.com/search?q=%22private%20equity%20secondaries%22" target="_blank" rel="noopener">PE secondaries</a> · '+
+    '<a href="https://news.google.com/search?q=%22GP-led%22%20secondary" target="_blank" rel="noopener">GP-led deals</a> · '+
+    '<a href="https://news.google.com/search?q=LP%20portfolio%20sale%20private%20equity" target="_blank" rel="noopener">LP portfolio sales</a></p>'; };
+  fetch("data/news.json",{cache:"no-store"}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(d){
+    if(!d.items||!d.items.length){ fallback(); return; }
+    var h='<p style="font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass)">Updated '+(d.updated||"")+' UTC · top '+d.items.length+' stories</p><ul>';
+    d.items.forEach(function(it){ h+='<li><span style="font-family:var(--mono);font-size:11px;color:#6c7166">'+(it.date||"")+' · '+(it.source||"")+'</span><br><a href="'+it.link+'" target="_blank" rel="noopener">'+it.title+'</a></li>'; });
+    el.innerHTML=h+"</ul>";
+  }).catch(fallback);
+});
+</script>
+<h3>The headline: H1 2026 was a structural turning point</h3>
   <p>The first half of 2026 set a volume record — but the bigger story is the mix. For the first time ever, <strong>GP-led volume overtook LP-led volume</strong>. The market's center of gravity has shifted from LPs selling fund stakes to sponsors engineering their own liquidity. Per Evercore's H1 2026 Secondary Market Review, GP-led deals grew 35% while LP-leds grew just 4% — a handover most practitioners view as structural, not cyclical, given that traditional exit channels (IPO, M&amp;A) have lagged private markets AUM growth for years.</p>
 
   <table>

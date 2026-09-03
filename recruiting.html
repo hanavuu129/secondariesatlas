@@ -163,6 +163,21 @@
 <h4>Openings snapshot (observed Aug 2026)</h4>
 <table><tr><th>Firm</th><th>Role</th><th>Location</th><th>Angle</th></tr><tr><td>Ares Management</td><td>Analyst, Private Equity Secondaries</td><td>New York</td><td>1–3 yrs IB/PE/secondaries — classic entry seat at a scaled credit-and-secondaries platform</td></tr><tr><td>Morgan Stanley IM</td><td>Analyst/Associate, PE Secondaries</td><td>New York</td><td>Platform seat spanning fund operations, fundraising, and market analysis</td></tr><tr><td>Guggenheim</td><td>Associate/VP, GP-Led Advisory</td><td>New York</td><td>Sell-side GP-led advisory — the direct peer path to PCA teams</td></tr><tr><td>Adams Street Partners</td><td>Associate (multiple teams)</td><td>Chicago / New York</td><td>Primaries-secondaries-co-invest flywheel; strong pipeline from advisory seats</td></tr></table>
 <p class="tbl-note">Snapshot only — titles and availability change weekly. Treat as evidence of an active market, then run the live searches below.</p>
+<h4>Auto-refreshed postings — via the site’s daily robot</h4>
+<div id="livejobs"><p style="font-family:var(--mono);font-size:12px;color:#6c7166">Loading live postings…</p></div>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  var el=document.getElementById("livejobs");
+  var fb=function(){ el.innerHTML='<p>Feed not initialized yet — the snapshot table and live searches below are your sources in the meantime.</p>'; };
+  fetch("data/jobs.json",{cache:"no-store"}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(d){
+    if(!d.jobs||!d.jobs.length){ el.innerHTML='<p style="font-family:var(--mono);font-size:12px;color:#6c7166">Robot ran '+(d.updated||"")+' UTC — no secondaries-matching titles in the tracked feeds today. Use the live searches below.</p>'; return; }
+    var h='<p style="font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass)">Updated '+(d.updated||"")+' UTC · '+d.jobs.length+' matching postings across '+(d.sources_ok||[]).length+' firm feeds</p>'+
+      '<table><tr><th>Firm</th><th>Role</th><th>Location</th><th></th></tr>';
+    d.jobs.forEach(function(j){ h+='<tr><td>'+j.firm+'</td><td>'+j.title+'</td><td>'+(j.location||"")+'</td><td><a href="'+j.url+'" target="_blank" rel="noopener">View</a></td></tr>'; });
+    el.innerHTML=h+"</table>";
+  }).catch(fb);
+});
+</script>
 <h4>Live searches — always current</h4>
 <div class="jobs-bar"><a href="https://www.linkedin.com/jobs/search/?keywords=private%20equity%20secondaries%20associate&location=New%20York" target="_blank" rel="noopener">LinkedIn: Secondaries Associate · NY</a><a href="https://www.linkedin.com/jobs/search/?keywords=GP-led%20secondaries" target="_blank" rel="noopener">LinkedIn: GP-Led roles</a><a href="https://www.linkedin.com/jobs/search/?keywords=co-investment%20associate%20private%20equity" target="_blank" rel="noopener">LinkedIn: Co-Investment Associate</a><a href="https://www.linkedin.com/jobs/search/?keywords=secondaries%20analyst&location=London" target="_blank" rel="noopener">LinkedIn: Secondaries · London</a><a href="https://www.glassdoor.com/Job/new-york-analyst-private-equity-secondaries-jobs-SRCH_IL.0,8_IC1132348_KO9,43.htm" target="_blank" rel="noopener">Glassdoor: Secondaries · NY</a><a href="https://www.indeed.com/q-associate-private-equity-secondaries-fund-l-new-york-state-jobs.html" target="_blank" rel="noopener">Indeed: Secondaries · NY State</a><a href="https://www.efinancialcareers.com/jobs?q=secondaries" target="_blank" rel="noopener">eFinancialCareers: Secondaries</a></div>
 <h4>Firm radar — check careers pages directly</h4>
