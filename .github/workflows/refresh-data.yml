@@ -17,7 +17,8 @@ jobs:
       - name: Fetch news and jobs
         run: |
           python3 - <<'PY'
-          import json, re, ssl, urllib.request, xml.etree.ElementTree as ET
+          import json, re, ssl, urllib.request, urllib.parse
+          import xml.etree.ElementTree as ET
           from datetime import datetime, timezone
           from email.utils import parsedate_to_datetime
 
@@ -31,42 +32,74 @@ jobs:
 
           now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
 
-          # ---------- NEWS: Google News RSS ----------
+          # ---------- NEWS: Bing News RSS (direct publisher links + real snippets) ----------
           QUERIES = [
-              '"continuation vehicle"',
+              '"continuation vehicle" private equity',
               '"private equity secondaries"',
-              '"GP-led" secondary private equity',
-              '"secondaries fund" close OR raise',
+              '"GP-led" secondary',
+              'secondaries fund close',
               'LP portfolio sale private equity',
           ]
-          items, seen = [], set()
+
+          def strip_tags(s):
+              return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", s or "")).strip()
+
+          STOP = set("the a an of to for in on and or as at by with from its his her "
+                     "their over into after amid up out new says say said".split())
+
+          def toks(title):
+              return set(w for w in re.findall(r"[a-z0-9$.]+", title.lower())
+                         if len(w) > 2 and w not in STOP)
+
+          MONEYP = re.compile(r"^[\$]?\d+(?:\.\d+)?(?:bn|b|m|mn|billion|million)?$")
+          GENERIC = set("secondaries secondary fund funds private equity capital "
+                        "partners close closes closed raises raise record latest "
+                        "flagship debut billion million".split())
+
+          def is_dup(tk, kt):
+              inter = tk & kt
+              if not inter:
+                  return False
+              if len(inter) / max(len(tk | kt), 1) > 0.6:
+                  return True
+              money = [w for w in inter if MONEYP.match(w)]
+              distinct = [w for w in inter if not MONEYP.match(w) and w not in GENERIC]
+              return bool(money) and bool(distinct)
+
+          items, seen_keys, kept_toks = [], set(), []
           for q in QUERIES:
-              url = ("https://news.google.com/rss/search?q=" + urllib.parse.quote(q)
-                     + "&hl=en-US&gl=US&ceid=US:en")
+              url = ("https://www.bing.com/news/search?q="
+                     + urllib.parse.quote(q) + "&format=rss")
               try:
                   root = ET.fromstring(get(url))
                   for it in root.iter("item"):
-                      title = (it.findtext("title") or "").strip()
+                      title = strip_tags(it.findtext("title") or "")
                       link = (it.findtext("link") or "").strip()
                       pub = (it.findtext("pubDate") or "").strip()
-                      src_el = it.find("{https://news.google.com/rss}source")
-                      if src_el is None:
-                          src_el = it.find("source")
-                      source = (src_el.text or "").strip() if src_el is not None else ""
-                      key = re.sub(r"\W+", "", title.lower())[:80]
-                      if not title or key in seen:
+                      desc = it.findtext("description") or ""
+                      source = (it.findtext("{*}Source") or "").strip()
+                      if not source and "//" in link:
+                          source = link.split("//", 1)[1].split("/", 1)[0].replace("www.", "")
+                      if not title or not link:
                           continue
-                      seen.add(key)
+                      key = re.sub(r"\W+", "", title.lower())[:80]
+                      if key in seen_keys:
+                          continue
+                      tk = toks(title)
+                      if tk and any(is_dup(tk, kt) for kt in kept_toks):
+                          continue  # near-duplicate of a story already kept
+                      seen_keys.add(key)
+                      kept_toks.append(tk)
                       try:
                           dt = parsedate_to_datetime(pub)
                           date, ts = dt.strftime("%b %d"), dt.timestamp()
                       except Exception:
                           date, ts = "", 0
                       items.append({"title": title, "link": link, "source": source,
-                                    "date": date, "_ts": ts,
-                                    "_desc": it.findtext("description") or ""})
+                                    "date": date, "_ts": ts, "_desc": desc})
               except Exception as e:
                   print("news query failed:", q, e)
+
           items.sort(key=lambda x: -x["_ts"])
           items = items[:25]
           for it in items:
@@ -75,10 +108,24 @@ jobs:
           # ---------- summaries: og:description -> RSS snippet -> context line ----------
           import html as _html
 
-          def strip_tags(s):
-              return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", s or "")).strip()
+          BOILER = ["aggregated from sources all over the world",
+                    "comprehensive up-to-date news coverage", "google news",
+                    "bing.com", "msn.com"]
+
+          def clean_summary(s, title):
+              s = (s or "").strip()
+              if not s or len(s) < 35:
+                  return ""
+              low = s.lower()
+              if any(b in low for b in BOILER):
+                  return ""
+              if low.startswith(title[:30].lower()):
+                  return ""
+              return s
 
           def og_desc(url):
+              if "news.google." in url or "bing.com" in url or "msn.com" in url:
+                  return ""
               try:
                   page = get(url, timeout=8).decode("utf-8", "ignore")
               except Exception:
@@ -97,33 +144,31 @@ jobs:
           def context_line(title):
               tl = title.lower()
               if "continuation" in tl or "single-asset" in tl or "sacv" in tl:
-                  return "GP-led continuation-vehicle activity \u2014 the market's dominant deal type."
-              if any(k in tl for k in ["fundrais", "closes", "close ", "raises", "raise ", "hard cap"]):
-                  return "Capital formation on the buyside \u2014 watch dry powder vs. deal supply."
-              if any(k in tl for k in ["sells", "sale", "portfolio", "divest"]):
-                  return "LP-led supply \u2014 institutions using secondaries for portfolio management."
+                  return "GP-led continuation-vehicle activity - the market's dominant deal type."
               if "credit" in tl:
-                  return "Credit secondaries \u2014 the market's fastest-growing vertical."
+                  return "Credit secondaries - the market's fastest-growing vertical."
+              if any(k in tl for k in ["fundrais", "closes", "close ", "raises", "raise ", "hard cap"]):
+                  return "Capital formation on the buyside - watch dry powder vs. deal supply."
+              if any(k in tl for k in ["sells", "sale", "portfolio", "divest"]):
+                  return "LP-led supply - institutions using secondaries for portfolio management."
               if any(k in tl for k in ["hires", "joins", "appoints", "promotes", "names "]):
-                  return "People move \u2014 team buildouts track where firms see deal flow."
+                  return "People move - team buildouts track where firms see deal flow."
               if any(k in tl for k in ["report", "survey", "volume", "outlook", "record"]):
-                  return "Market data \u2014 candidate material for the stats you quote in interviews."
+                  return "Market data - candidate material for the stats you quote in interviews."
               return "Secondary-market development worth logging."
 
           for i, it in enumerate(items):
-              summ = og_desc(it["link"]) if i < 12 else ""
+              summ = clean_summary(og_desc(it["link"]), it["title"]) if i < 14 else ""
               if not summ:
-                  d = strip_tags(it.get("_desc", ""))
-                  if d and len(d) > 40 and not d.lower().startswith(it["title"][:30].lower()):
-                      summ = d
+                  summ = clean_summary(strip_tags(it.get("_desc", "")), it["title"])
               if not summ:
                   summ = context_line(it["title"])
-              it["summary"] = (summ[:277] + "\u2026") if len(summ) > 280 else summ
+              it["summary"] = (summ[:277] + "...") if len(summ) > 280 else summ
               it.pop("_desc", None)
 
           # ---------- JOBS: Greenhouse + Lever public boards ----------
           # Tokens are best-effort guesses; 404s are skipped silently.
-          # Add/remove tokens by editing these lists — the board token is the
+          # Add/remove tokens by editing these lists - the board token is the
           # last path segment of a firm's boards.greenhouse.io / jobs.lever.co page.
           GREENHOUSE = ["stepstonegroup", "hamiltonlane", "harbourvest",
                         "adamsstreetpartners", "industryventures", "collercapital",
