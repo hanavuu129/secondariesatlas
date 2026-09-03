@@ -19,6 +19,7 @@ window.Atlas = {
       {t:'Glossary', h:'glossary.html', id:'glossary'}
     ]},
     {g:'Foundations', items:[
+      {t:'Interview Technical Guide', h:'technical-guide.html', id:'technical-guide'},
       {t:'The Buyside Map', h:'map.html', id:'map'},
       {t:'LBO Mechanics', h:'lbo.html', id:'lbo'},
       {t:'Accounting & Valuation', h:'valuation.html', id:'valuation'},
