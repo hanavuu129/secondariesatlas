@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-03 17:29",
+ "updated": "2026-09-04 11:06",
  "jobs": [
   {
    "firm": "adamsstreetpartners",
@@ -10,7 +10,6 @@
  ],
  "sources_ok": [
   "adamsstreetpartners",
-  "pantheon",
-  "generalatlantic"
+  "pantheon"
  ]
 }
