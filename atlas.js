@@ -10,6 +10,12 @@ window.Atlas = {
       {t:'Tenders & Strip Sales', h:'tender-strips.html', id:'tender-strips'},
       {t:'Co-Investments', h:'coinvest.html', id:'coinvest'}
     ]},
+    {g:'Deal Craft', items:[
+      {t:'Transaction Structures', h:'structures.html', id:'structures'},
+      {t:'Sector Diligence & Sentiment', h:'sectors.html', id:'sectors'},
+      {t:'ILPA & Negotiation', h:'ilpa.html', id:'ilpa'},
+      {t:'Mock Case Studies', h:'cases.html', id:'cases'}
+    ]},
     {g:'Recruiting', items:[
       {t:'Process & Interviews', h:'recruiting.html', id:'recruiting'},
       {t:'Job Dashboard', h:'recruiting.html#jobs'}
